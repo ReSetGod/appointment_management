@@ -1,0 +1,192 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CitaYa</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--BootStrap-->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <!--FontAwesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'iconic/css/material-design-iconic-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/sign_up.css' %}">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                <div class="d-flex justify-content-start mb-3">
+                    <a href="{% url 'account_login' %}" class="btn custom-button">
+                        <i class="fas fa-arrow-left"></i> Regresar
+                    </a>
+                </div>
+                <form class="login100-form validate-form" method="POST" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    <span class="login100-form-title p-b-49">
+                        Registrarse
+                    </span>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.first_name.id_for_label }}" class="label-input100">
+                                    {{ form.first_name.label }}</label>
+                                {{ form.first_name }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.last_name.id_for_label }}" class="label-input100">
+                                    {{ form.last_name.label }}</label>
+                                {{ form.last_name }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.middle_name.id_for_label }}" class="label-input100">
+                                    {{ form.middle_name.label }}</label>
+                                {{ form.middle_name }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.maternal_surname.id_for_label }}" class="label-input100">
+                                    {{ form.maternal_surname.label }}</label>
+                                {{ form.maternal_surname }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.username.id_for_label }}" class="label-input100">
+                                    {{ form.username.label }}</label>
+                                <input class="input100" type="text" name="username" placeholder="Nombre de usuario">
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.email.id_for_label }}" class="label-input100">
+                                    {{ form.email.label }}</label>
+                                <input class="input100" type="email" name="email" placeholder="{{ form.email.label }}">
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.password1.id_for_label }}" class="label-input100">
+                                    {{ form.password1.label }}</label>
+                                <input class="input100" type="password" name="password1"
+                                    placeholder="{{ form.password1.label }}">
+                                <span class="focus-input100"></span>
+                            </div>
+
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.password2.id_for_label }}" class="label-input100">
+                                    {{ form.password2.label }}</label>
+                                <input class="input100" type="password" name="password2"
+                                    placeholder="Repita la contraseña">
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.identification.id_for_label }}" class="label-input100">
+                                    {{ form.identification.label }}</label>
+                                {{ form.identification }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.address.id_for_label }}" class="label-input100">
+                                    {{ form.address.label }}</label>
+                                {{ form.address }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.city.id_for_label }}" class="label-input100">
+                                    {{ form.city.label }}</label>
+                                {{ form.city }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.phone_number.id_for_label }}" class="label-input100">
+                                    {{ form.phone_number.label }}</label>
+                                {{ form.phone_number }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="wrap-input100 validate-input">
+                                <label for="{{ form.birth_date.id_for_label }}" class="label-input100">
+                                    {{ form.birth_date.label }}</label>
+                                {{ form.birth_date }}
+                                <span class="focus-input100"></span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="wrap-input100g validate-input">
+                                <label for="{{ form.genre.id_for_label }}" class="label-input100g">
+                                    {{ form.genre.label }}</label>
+                                <div class="radio-group">
+                                    {{ form.genre }}
+                                    <span class="focus-input100"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn" type="submit">
+                                Crear cuenta
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+</body>
+
+</html>

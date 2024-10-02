@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <div class="container">
+        <h2 class="my-4">Tu información</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Primer nombre</h5>
+                <h6>{{ request.user.first_name }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Primer apellido</h5>
+                <h6>{{ request.user.last_name }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Segundo nombre</h5>
+                <h6>{{ request.user.middle_name }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Segundo apellido</h5>
+                <h6>{{ request.user.maternal_surname }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Identificación</h5>
+                <h6>{{ request.user.identification }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Dirección</h5>
+                <h6>{{ request.user.address }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Ciudad de residencia</h5>
+                <h6>{{ request.user.city }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Celular</h5>
+                <h6>{{ request.user.phone_number }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Fecha de nacimiento</h5>
+                <h6>{{ request.user.birth_date }}</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>Género</h5>
+                <h6>{{ request.user.genre }}</h6>
+            </div>
+            <div class="col-12 my-4">
+                <a href="#" class="btn custom-button" role="button" aria-pressed="true">Cambiar contraseña</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <h2 class="my-4">Agendar cita médica</h2>
+    <form>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="form-select" class="form-label">Paciente</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Elije el paciente</option>
+                    <option value="1">José Carrera</option>
+                    <option value="2">Juan López</option>
+                    <option value="3">Arturo Rodríguez</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="form-select" class="form-label">Especialidad</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Elije la especialidad</option>
+                    <option value="1">Pediatría</option>
+                    <option value="2">Ginecología</option>
+                    <option value="3">Medicina general</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="form-select" class="form-label">Horario</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Elije el horario</option>
+                    <option value="1">7:00 a 7:30</option>
+                    <option value="2">7:30 a 8:00</option>
+                    <option value="3">8:00 a 8:30</option>
+                    <option value="4">8:30 a 9:00</option>
+                    <option value="5">9:00 a 9:30</option>
+                    <option value="6">9:30 a 10:00</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="exampleInputDate" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="exampleInputDate">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="form-select" class="form-label">Médico</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Elije tu médico</option>
+                    <option value="1">Juan Pérez</option>
+                    <option value="2">John Doe</option>
+                    <option value="3">Roberto Parra</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Motivo</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn custom-button w-100">Agendar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
