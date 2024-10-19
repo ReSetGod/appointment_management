@@ -60,6 +60,8 @@ class Appointment(models.Model):
         'User', on_delete=models.CASCADE, related_name='patient_appointments')
     doctor = models.ForeignKey(
         'Doctor', on_delete=models.CASCADE, related_name='doctor_appointments')
+    speciality = models.ForeignKey(
+        'Speciality', on_delete=models.SET_NULL, null=True, blank=True, related_name='appointments')
     appointment_date = models.DateField()
     appointment_time = models.TimeField()
     reason = models.TextField()
@@ -73,6 +75,8 @@ class Appointment(models.Model):
             ('PENDING', 'Pendiente'),
             ('CONFIRMED', 'Confirmada'),
             ('CANCELLED', 'Cancelada'),
+            ('ATTENDED', 'Atendida'),
+            ('NO_SHOW', 'No asistió'),
         ],
         default='CONFIRMED'
     )
@@ -80,12 +84,6 @@ class Appointment(models.Model):
     class Meta:
         verbose_name = 'Cita'
         verbose_name_plural = 'Citas'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['doctor', 'appointment_date', 'appointment_time'],
-                name='unique_appointment'
-            )  # Para evitar duplicados
-        ]
 
     def __str__(self):
         return f'{self.patient.first_name} con {self.doctor.first_name}'
@@ -96,12 +94,12 @@ class Appointment(models.Model):
         current_date = current_datetime.date()
         current_time = current_datetime.time()
 
-        # Validación para evitar duplicados a nivel de modelo
+        # Validación para evitar duplicados a nivel de modelo, considerando solo citas confirmadas
         if self.status == 'CONFIRMED' and Appointment.objects.filter(
             doctor=self.doctor,
             appointment_date=self.appointment_date,
             appointment_time=self.appointment_time,
-            status='CONFIRMED'
+            status='CONFIRMED'  # Solo se consideran las citas confirmadas
         ).exclude(pk=self.pk).exists():
             raise ValidationError(
                 f'Este doctor ya tiene una cita confirmada en esta hora y fecha'

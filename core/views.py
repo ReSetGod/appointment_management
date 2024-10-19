@@ -1,9 +1,12 @@
 from datetime import datetime, time
+from django.db.models import Q
+from django.db import IntegrityError
+from django.utils import timezone
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import *
@@ -58,8 +61,8 @@ def schedule_appointment_patient(request):
 
 @login_required
 @user_passes_test(is_patient)
-def my_appointment(request):
-    return render(request, 'patient/my_appointment.html')
+def my_appointments(request):
+    return render(request, 'patient/my_appointments.html')
 
 
 @login_required
@@ -136,7 +139,7 @@ def get_available_times(request, doctor_id, date):
 
         # Obtener las citas del doctor en la fecha seleccionada
         appointments = Appointment.objects.filter(
-            doctor_id=doctor_id, appointment_date=appointment_date)
+            doctor_id=doctor_id, appointment_date=appointment_date, status='CONFIRMED')
 
         # Obtener los horarios ocupados
         occupied_times = [
@@ -195,17 +198,20 @@ def book_appointment(request):
         is_secretaria = user.groups.filter(name='Secretaria').exists()
 
         doctor_id = request.POST.get('doctor_id')
+        speciality_id = request.POST.get('speciality_id')  # Nuevo campo
         appointment_date = request.POST.get('appointment_date')
         appointment_time = request.POST.get('appointment_time')
         reason = request.POST.get('reason')
 
         # Validaciones manuales de los campos
-        if not all([doctor_id, appointment_date, appointment_time, reason]):
+        if not all([doctor_id, speciality_id, appointment_date, appointment_time, reason]):
             messages.error(
                 request, 'Por favor, completa todos los campos antes de enviar.')
             return redirect('schedule_appointment_patient')
 
         doctor = get_object_or_404(Doctor, id=doctor_id)
+        # Obtener la especialidad seleccionada
+        speciality = get_object_or_404(Speciality, id=speciality_id)
 
         # Asignar el paciente basado en el rol
         if is_paciente:
@@ -218,10 +224,11 @@ def book_appointment(request):
             return redirect('schedule_appointment_patient')
 
         try:
-            # Crear la cita
+            # Crear la cita con la especialidad incluida
             appointment = Appointment(
                 patient=patient,
                 doctor=doctor,
+                speciality=speciality,  # Asignar la especialidad
                 appointment_date=appointment_date,
                 appointment_time=appointment_time,
                 reason=reason,
@@ -246,3 +253,132 @@ def book_appointment(request):
             return redirect('schedule_appointment_patient')
 
     return render(request, 'schedule_appointment.html')
+
+
+# Vista para devolver las citas futuras del paciente
+@login_required
+def future_appointments(request):
+    try:
+        user = request.user
+        # Verificar si el usuario pertenece al grupo 'Paciente'
+        if request.user.groups.filter(name='Paciente').exists():
+            # Obtener la fecha y hora actuales en la zona horaria local
+            current_time = timezone.localtime()
+
+            # Obtener las citas futuras del paciente, excluyendo citas pasadas y canceladas
+            appointments = Appointment.objects.filter(
+                patient=user,
+                status__in=['PENDING', 'CONFIRMED']  # Excluir las canceladas
+            ).filter(
+                # Citas a partir de mañana
+                Q(appointment_date__gt=current_time.date()) |
+                # Citas del día de hoy pero con hora futura
+                Q(appointment_date=current_time.date(),
+                  appointment_time__gt=current_time.time())
+            ).select_related('doctor').order_by('appointment_date', 'appointment_time')
+
+        else:
+            appointments = []
+
+    except ObjectDoesNotExist as e:
+        messages.error(
+            request, "Hubo un error al obtener las citas. Intenta de nuevo más tarde.")
+        appointments = []
+
+    except Exception as e:
+        # Manejar cualquier otro error inesperado
+        messages.error(request, f"Error inesperado: {str(e)}")
+        appointments = []
+
+    if request.htmx:
+        # Si es una solicitud htmx, solo devuelve el fragmento de la tabla
+        return render(request, 'patient/appointments_table.html', {'appointments': appointments})
+
+    return render(request, 'patient/future_appointments.html', {'appointments': appointments})
+
+
+# Vista que devuelve los detalles de la cita
+@login_required
+def appointment_details(request, appointment_id):
+    # Obtener la cita o devolver 404 si no existe
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    # Verificar si la solicitud incluye un parámetro para diferenciar entre los detalles del historial y las próximas citas
+    is_history = request.GET.get('is_history', 'false').lower() == 'true'
+
+    # Seleccionar el template adecuado
+    template = 'patient/appointment_history_details.html' if is_history else 'patient/appointment_details.html'
+
+    # Renderizar los detalles en el template correspondiente
+    return render(request, template, {'appointment': appointment})
+
+
+# Vista para cancelar la cita
+def cancel_appointment(request, appointment_id):
+    try:
+        appointment = get_object_or_404(Appointment, id=appointment_id)
+
+        if appointment.patient == request.user:
+            appointment.status = 'CANCELLED'
+            appointment.save()
+
+            # Preparar la respuesta con un mensaje de éxito
+            response_data = {
+                "message": "La cita ha sido cancelada con éxito.",
+                "appointment_id": appointment_id,
+            }
+            return JsonResponse(response_data)
+        else:
+            return JsonResponse({"message": "No tienes permiso para cancelar esta cita."}, status=403)
+
+    except Exception as e:
+        return JsonResponse({"message": f"Ocurrió un error: {str(e)}"}, status=500)
+
+
+# Vista para devolver el historial de citas del paciente
+@login_required
+def appointment_history(request):
+    if request.method == 'GET':
+        try:
+            user = request.user
+
+            # Verificar si el usuario pertenece al grupo 'Paciente'
+            if request.user.groups.filter(name='Paciente').exists():
+                current_datetime = timezone.localtime()
+
+                # Filtrar citas pasadas para status CONFIRMED o ATTENDED
+                appointments = Appointment.objects.filter(
+                    patient=user
+                ).filter(
+                    models.Q(status__in=['CANCELLED', 'NO_SHOW']) |
+                    models.Q(
+                        status__in=['CONFIRMED', 'ATTENDED'],
+                        appointment_date__lt=current_datetime.date()
+                    ) |
+                    models.Q(
+                        status__in=['CONFIRMED', 'ATTENDED'],
+                        appointment_date=current_datetime.date(),
+                        appointment_time__lte=current_datetime.time()
+                    )
+                ).select_related('doctor')
+
+                # Transformar las citas a JSON
+                appointments_data = []
+                for appointment in appointments:
+                    appointments_data.append({
+                        "id": appointment.id,
+                        "date": appointment.appointment_date.strftime('%Y-%m-%d'),
+                        "time": appointment.appointment_time.strftime('%H:%M'),
+                        "doctor": f"{appointment.doctor.first_name} {appointment.doctor.last_name}",
+                        "speciality": appointment.speciality.name if appointment.speciality else "Sin especialidad",
+                        "status": appointment.get_status_display(),
+                    })
+
+                return JsonResponse({"message": "Success", "appointments": appointments_data})
+            else:
+                return JsonResponse({"message": "No autorizado"}, status=403)
+
+        except Exception as e:
+            return JsonResponse({"message": f"Error inesperado: {str(e)}"}, status=500)
+
+    return JsonResponse({"message": "Método no permitido"}, status=405)

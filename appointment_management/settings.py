@@ -58,6 +58,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
 
+    'django_htmx.middleware.HtmxMiddleware',
+
     "allauth.account.middleware.AccountMiddleware",
 ]
 

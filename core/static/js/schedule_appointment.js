@@ -41,7 +41,7 @@ const listAvailableTimes = async (doctorId, date) => {
         const response = await fetch(`/core/available_times/${doctorId}/${date}`);
         const data = await response.json();
         
-        if (data.message === "Success") {
+        if (data.message === "Success" && data.available_times.length > 0) {
             let options = `<option value="">Seleccione un horario</option>`;
             data.available_times.forEach((time) => {
                 options += `<option value='${time}'>${time}</option>`;

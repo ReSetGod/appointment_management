@@ -1428,3 +1428,746 @@ Not Found: /favicon.ico
 "GET /favicon.ico HTTP/1.1" 404 2440
 Not Found: /favicon.ico
 "GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/home/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 36, in home
+    return render(request, 'home.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\defaulttags.py", line 326, in render
+    return nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'my_appointment' not found. 'my_appointment' is not a valid view function or pattern name.
+"GET /core/home/ HTTP/1.1" 500 171391
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 262, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68907
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 262, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68907
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 262, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68907
+Not Found: /core/available_times/No hay doctores disponibles/2024-10-04
+"GET /core/available_times/No%20hay%20doctores%20disponibles/2024-10-04 HTTP/1.1" 404 5801
+Not Found: /core/available_times/No hay doctores disponibles/2024-10-11
+"GET /core/available_times/No%20hay%20doctores%20disponibles/2024-10-11 HTTP/1.1" 404 5801
+Not Found: /core/available_times/No hay doctores disponibles/2024-10-22
+"GET /core/available_times/No%20hay%20doctores%20disponibles/2024-10-22 HTTP/1.1" 404 5801
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 262, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68907
+Internal Server Error: /admin/core/user/2/delete/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_appointment.attended
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2165, in delete_view
+    return self._delete_view(request, object_id, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2192, in _delete_view
+    ) = self.get_deleted_objects([obj], request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2160, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\utils.py", line 137, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\utils.py", line 204, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_appointment.attended
+"GET /admin/core/user/2/delete/?_to_field=id&_popup=1 HTTP/1.1" 500 213241
+Internal Server Error: /admin/core/user/2/delete/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_appointment.attended
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 716, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2165, in delete_view
+    return self._delete_view(request, object_id, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2192, in _delete_view
+    ) = self.get_deleted_objects([obj], request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\options.py", line 2160, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\utils.py", line 137, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\admin\utils.py", line 204, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_appointment.attended
+"GET /admin/core/user/2/delete/?_to_field=id&_popup=1 HTTP/1.1" 500 213241
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 264, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68907
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 264, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 68883
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 264, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 71123
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 265, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 71123
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 265, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 71123
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 265, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 71006
+Internal Server Error: /core/future_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 265, in future_appointments
+    if request.htmx:
+       ^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+"GET /core/future_appointments/ HTTP/1.1" 500 71006
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/patient/my_appointments/
+Traceback (most recent call last):
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\core\views.py", line 64, in my_appointments
+    return render(request, 'patient/my_appointments.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Rodrigo\Desktop\appointment_management\venv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'cancel_appointment' with no arguments not found. 1 pattern(s) tried: ['core/appointment/(?P<appointment_id>[0-9]+)/cancel/\\Z']
+"GET /core/patient/my_appointments/ HTTP/1.1" 500 161658
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+"GET /static/bootstrap/css/bootstrap.min.css.map HTTP/1.1" 404 1864
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Internal Server Error: /core/appointment/11/cancel/
+"GET /core/appointment/11/cancel/ HTTP/1.1" 500 0
+Internal Server Error: /core/appointment/11/cancel/
+"GET /core/appointment/11/cancel/ HTTP/1.1" 500 0
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment/11/cancel/
+"GET /appointment/11/cancel/ HTTP/1.1" 404 2473
+Not Found: /appointment/11/cancel/
+"GET /appointment/11/cancel/ HTTP/1.1" 404 2473
+Not Found: /core/patient/appointment/11/cancel/
+"GET /core/patient/appointment/11/cancel/ HTTP/1.1" 404 6175
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment/12/cancel/
+"DELETE /appointment/12/cancel/ HTTP/1.1" 404 2476
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"DELETE /appointment//cancel/ HTTP/1.1" 404 2470
+Not Found: /appointment//cancel/
+"GET /appointment//cancel/ HTTP/1.1" 404 2467
+Not Found: /appointment/12/cancel/
+"GET /appointment/12/cancel/ HTTP/1.1" 404 2473
+Forbidden (CSRF token missing.): /core/appointment/12/cancel/
+"DELETE /core/appointment/12/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/12/cancel/
+"DELETE /core/appointment/12/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/12/cancel/
+"DELETE /core/appointment/12/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/12/cancel/
+"DELETE /core/appointment/12/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/14/cancel/
+"DELETE /core/appointment/14/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/14/cancel/
+"DELETE /core/appointment/14/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/14/cancel/
+"DELETE /core/appointment/14/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/14/cancel/
+"DELETE /core/appointment/14/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/14/cancel/
+"DELETE /core/appointment/14/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/15/cancel/
+"DELETE /core/appointment/15/cancel/ HTTP/1.1" 403 2516
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Forbidden (CSRF token missing.): /core/appointment/26/cancel/
+"DELETE /core/appointment/26/cancel/ HTTP/1.1" 403 2516
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /core/appointment/32/cancel/
+"DELETE /core/appointment/32/cancel/ HTTP/1.1" 403 2574
+Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /core/appointment/32/cancel/
+"DELETE /core/appointment/32/cancel/ HTTP/1.1" 403 2574
+Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /core/appointment/32/cancel/
+"DELETE /core/appointment/32/cancel/ HTTP/1.1" 403 2574
+Forbidden (CSRF token from the 'X-Csrftoken' HTTP header has incorrect length.): /core/appointment/32/cancel/
+"DELETE /core/appointment/32/cancel/ HTTP/1.1" 403 2574
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /patient/appointment_history/
+"POST /patient/appointment_history/ HTTP/1.1" 404 2492
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /patient/appointment-history/
+"POST /patient/appointment-history/ HTTP/1.1" 404 2492
+Not Found: /patient/appointment-history/
+"POST /patient/appointment-history/ HTTP/1.1" 404 2492
+Not Found: /patient/appointment-history/
+"POST /patient/appointment-history/ HTTP/1.1" 404 2492
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/appointment-history/
+"POST /core/appointment-history/ HTTP/1.1" 500 78
+Method Not Allowed: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 405 39
+Method Not Allowed: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 405 39
+Method Not Allowed: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 405 39
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Internal Server Error: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 500 78
+Internal Server Error: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 500 78
+Internal Server Error: /core/appointment-history/
+"GET /core/appointment-history/ HTTP/1.1" 500 78
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /core/appointment-details/11/
+"GET /core/appointment-details/11/ HTTP/1.1" 404 6354
+Not Found: /core/appointment-details/11/
+"GET /core/appointment-details/11/ HTTP/1.1" 404 6354
+Not Found: /core/appointment-details/12/
+"GET /core/appointment-details/12/ HTTP/1.1" 404 6354
+Not Found: /core/appointment-details/12/
+"GET /core/appointment-details/12/ HTTP/1.1" 404 6354
+Not Found: /core/appointment-details/11/
+"GET /core/appointment-details/11/ HTTP/1.1" 404 6354
+Not Found: /core/appointment-details/11/
+"GET /core/appointment-details/11/ HTTP/1.1" 404 6354
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2440
