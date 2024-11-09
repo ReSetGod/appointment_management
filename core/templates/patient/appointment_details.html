@@ -10,7 +10,7 @@
 <button class="btn btn-danger" id="cancelAppointmentBtn" hx-delete="{% url 'cancel_appointment' appointment.id %}"
     hx-target="this" hx-swap="none" hx-on="htmx:afterRequest: handleCancellationResponse(event)"
     hx-on-error="Swal.fire('Error', 'Ocurrió un error al cancelar la cita', 'error')">
-    Cancelar cita
+    <i class="fa-solid fa-trash-can"></i> Cancelar cita
 </button>
 
 <script>

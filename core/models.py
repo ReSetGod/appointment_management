@@ -124,6 +124,11 @@ class Appointment(models.Model):
 class MedicalHistory(models.Model):
     patient = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='medical_histories')
+    doctor = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name='diagnosed_histories'
+    )
+    appointment = models.ForeignKey(
+        Appointment, on_delete=models.CASCADE, related_name='medical_histories', null=False)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(

@@ -1,60 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="content">
-    <h2>Historial médico</h2>
-    <div class="search-component">
-        <form action="#">
-            <div class="nav-search">
-                <input type="text" class="search-query" placeholder="Buscar diagnóstico">
-                <button class="btn" type="button">Buscar</button>
-            </div>
-        </form>
-    </div>
+    <h2>Historial de diagnósticos</h2>
     <br>
-    <h3>Diagnósticos</h3>
-    <div style="overflow-x:auto;">
-        <table id="posts">
-            <thead>
-                <tr>
-                    <th style="width:5%">N°</th>
-                    <th style="width:30%">Médico</th>
-                    <th style="width:30%">Fecha</th>
-                    <th style="width:30%">Síntomas y hallazgos</th>
-                    <th style="width:5%">Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>07/09/2024</td>
-                    <td>Faringitis aguda, dolor de garganta y fiebre</td>
-                    <td><a href="#">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Juan Pérez</td>
-                    <td>07/06/2024</td>
-                    <td>Gastroenteritis, diarrea y vómito</td>
-                    <td><a href="#">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Roberto Parra</td>
-                    <td>07/06/2024</td>
-                    <td>Apendisitis aguda, dolor de abdomen y al orinar</td>
-                    <td><a href="#">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Erick Maldonado</td>
-                    <td>07/18/2024</td>
-                    <td>Catarro leve, estornudos y mucusidades</td>
-                    <td><a href="#">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="table-responsive">
+        <div id="diagnosticsHistoryTable"></div> <!-- Contenedor para Grid.js -->
     </div>
+
+    <!-- Incluir el modal para mostrar detalles del diagnóstico -->
+    {% include 'patient/modals/modal_diagnostic_details.html' %}
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/diagnostics_history.js' %}"></script>
 {% endblock %}
