@@ -49,4 +49,12 @@ urlpatterns = [
          name='diagnostics_history'),
     path('diagnostic/<int:diagnostic_id>/details/',
          views.diagnostic_details, name='diagnostic_details'),
+    path('specialities/<int:speciality_id>/',
+         views.speciality_detail, name='speciality_detail'),
+
+    # Vistas para editar las citas
+    path("appointments/edit/<int:appointment_id>/",
+         views.edit_appointment_view, name="edit_appointment_view"),
+    path("appointments/edit/<int:appointment_id>/save/",
+         views.edit_appointment, name="edit_appointment"),
 ]

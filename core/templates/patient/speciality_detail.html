@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <div class="speciality-detail">
+        <h2>{{ speciality.name }}</h2>
+        <p class="speciality-description">{{ speciality.detailed_description|default:speciality.description }}</p>
+
+        <h3>Doctores en {{ speciality.name }}</h3>
+        <div class="doctor-cards">
+            {% for doctor in doctors %}
+            <div class="doctor-card">
+                <div class="icon-doctor">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="doctor-info">
+                    <strong>Dr(a) {{ doctor.first_name }} {{ doctor.last_name }}</strong>
+                    <p>
+                        Especialidades:
+                        {% for spec in doctor.specialities.all %}
+                        {{ spec.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>Disponibilidad:</p>
+                    <p>Horarios: 9:00 - 18:00</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No hay doctores disponibles para esta especialidad actualmente.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

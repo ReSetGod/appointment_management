@@ -4,13 +4,13 @@ const listDoctors = async (specialityId) => {
         const data = await response.json();
         
         if (data.message === "Success") {
-            let options = `<option value="">Seleccione un doctor</option>`;
+            let options = '<option value="">Seleccione un doctor</option>';
             data.doctors.forEach((doctor) => {
                 options += `<option value='${doctor.id}'>${doctor.first_name} ${doctor.last_name}</option>`;
             });
             doctorSelect.innerHTML = options;
         } else {
-            doctorSelect.innerHTML = `<option>No hay doctores disponibles</option>`;
+            doctorSelect.innerHTML = '<option>No hay doctores disponibles</option>';
         }
         
     } catch (error) {
@@ -24,7 +24,7 @@ const listSpecialities = async () => {
         const data = await response.json();
         
         if (data.message === "Success") {
-            let options = `<option value="">Seleccione una especialidad</option>`;
+            let options = '<option value="">Seleccione una especialidad</option>';
             data.specialities.forEach((speciality) => {
                 options += `<option value='${speciality.id}'>${speciality.name}</option>`;
             });
@@ -42,13 +42,13 @@ const listAvailableTimes = async (doctorId, date) => {
         const data = await response.json();
         
         if (data.message === "Success" && data.available_times.length > 0) {
-            let options = `<option value="">Seleccione un horario</option>`;
+            let options = '<option value="">Seleccione un horario</option>';
             data.available_times.forEach((time) => {
                 options += `<option value='${time}'>${time}</option>`;
             });
             timeSelect.innerHTML = options;
         } else {
-            timeSelect.innerHTML = `<option value="">No existen horarios disponibles</option>`;
+            timeSelect.innerHTML = '<option value="">No existen horarios disponibles</option>';
         }
         
     } catch (error) {
@@ -59,8 +59,8 @@ const listAvailableTimes = async (doctorId, date) => {
 const initialLoad = async () => {
     await listSpecialities();
 
-    doctorSelect.innerHTML = `<option value="">Seleccione un doctor</option>`;
-    timeSelect.innerHTML = `<option value="">Seleccione un horario</option>`;
+    doctorSelect.innerHTML = '<option value="">Seleccione un doctor</option>';
+    timeSelect.innerHTML = '<option value="">Seleccione un horario</option>';
     dateSelect.disabled = true; // Desactivar el campo de fecha inicialmente
 
     const checkFormCompletion = () => {
@@ -79,8 +79,8 @@ const initialLoad = async () => {
         if (specialityId) {
             await listDoctors(specialityId);
         } else {
-            doctorSelect.innerHTML = `<option value="">Seleccione un doctor</option>`;
-            timeSelect.innerHTML = `<option value="">Seleccione un horario</option>`;
+            doctorSelect.innerHTML = '<option value="">Seleccione un doctor</option>';
+            timeSelect.innerHTML = '<option value="">Seleccione un horario</option>';
             dateSelect.disabled = true;
         }
         checkFormCompletion();

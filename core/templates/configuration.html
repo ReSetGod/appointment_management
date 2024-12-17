@@ -1,53 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="content">
     <div class="container">
-        <h2 class="my-4">Tu información</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Primer nombre</h5>
-                <h6>{{ request.user.first_name }}</h6>
+        <h2 class="my-4 text-center">Tu información</h2>
+        <form id="configurationForm" method="post" action="{% url 'configuration' %}">
+            {% csrf_token %}
+            <div class="row">
+                <!-- Iterar sobre los campos del formulario -->
+                {% for field in form %}
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="invalid-feedback">
+                            {{ field.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <div class="col-md-6">
-                <h5>Primer apellido</h5>
-                <h6>{{ request.user.last_name }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Segundo nombre</h5>
-                <h6>{{ request.user.middle_name }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Segundo apellido</h5>
-                <h6>{{ request.user.maternal_surname }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Identificación</h5>
-                <h6>{{ request.user.identification }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Dirección</h5>
-                <h6>{{ request.user.address }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Ciudad de residencia</h5>
-                <h6>{{ request.user.city }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Celular</h5>
-                <h6>{{ request.user.phone_number }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Fecha de nacimiento</h5>
-                <h6>{{ request.user.birth_date }}</h6>
-            </div>
-            <div class="col-md-6">
-                <h5>Género</h5>
-                <h6>{{ request.user.genre }}</h6>
-            </div>
-            <div class="col-12 my-4">
-                <a href="#" class="btn custom-button" role="button" aria-pressed="true">Cambiar contraseña</a>
-            </div>
-        </div>
+            <button type="submit" id="submitButton" class="btn custom-button mt-3" disabled>Guardar
+                Cambios</button>
+        </form>
+        <!-- Botón para abrir el modal -->
+        <a class="btn btn-success mt-3" href="{% url 'account_change_password' %}" role="button">Cambiar Contraseña o
+            Correo Electrónico</a>
+
     </div>
 </div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/update_user_info.js' %}"></script>
 {% endblock %}

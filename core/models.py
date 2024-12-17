@@ -26,6 +26,7 @@ class User(AbstractUser):
 class Speciality(models.Model):
     name = models.CharField(max_length=80)
     description = models.TextField()
+    detailed_description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     modified_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -114,6 +115,18 @@ class Appointment(models.Model):
         if self.appointment_date == current_date and self.appointment_time < current_time:
             raise ValidationError(
                 'La hora de la cita no puede ser en el pasado.')
+
+        # Validación para máximo dos citas con diferentes médicos en el mismo día
+        if self.status == 'CONFIRMED':
+            same_day_appointments = Appointment.objects.filter(
+                patient=self.patient,
+                appointment_date=self.appointment_date,
+                status='CONFIRMED'
+            ).exclude(pk=self.pk).values('doctor').distinct()
+            if len(same_day_appointments) >= 2:
+                raise ValidationError(
+                    'No puedes reservar más de dos citas con diferentes médicos en el mismo día.'
+                )
 
     def save(self, *args, **kwargs):
         # Llamada a full_clean para realizar todas las validaciones (incluyendo clean)

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2 class="my-3">Editar cita médica</h2>
+    <form method="POST" action="{% url 'edit_appointment' appointment.id %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="specialitySelect" class="form-label">Especialidad</label>
+                <select class="form-select" id="specialitySelect" name="speciality_id"
+                    data-saved-speciality-id="{{ appointment.speciality.id }}">
+                    {% for speciality in specialities %}
+                    <option value="{{ speciality.id }}" 
+                        {% if speciality.id == appointment.speciality.id %}selected{% endif %}>
+                        {{ speciality.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="doctorSelect" class="form-label">Doctor</label>
+                <select id="doctorSelect" class="form-select" name="doctor_id"
+                    data-saved-doctor-id="{{ appointment.doctor.id }}">
+                    <option value="" selected disabled>Seleccione un doctor</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="dateSelect" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="dateSelect" name="appointment_date"
+                    value="{{ appointment.appointment_date|date:'Y-m-d' }}"
+                    data-saved-appointment-date="{{ appointment.appointment_date|date:'Y-m-d' }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="timeSelect" class="form-label">Horario</label>
+                <select class="form-select" id="timeSelect" name="appointment_time"
+                    data-saved-appointment-time="{{ appointment.appointment_time }}">
+                    <option value="" selected disabled>Seleccione un horario</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Motivo</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="reason"
+                    rows="2">{{ appointment.reason }}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" id="saveButton" class="btn custom-button w-100" disabled>
+                    Guardar cambios
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/edit_appointment.js' %}"></script>
+{% endblock %}

@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import UserUpdateForm
 
 from .models import *
 
@@ -106,13 +107,41 @@ def medical_history_admin(request):
 # Configuración
 @login_required
 def configuration(request):
-    return render(request, 'configuration.html')
+    try:
+        if request.method == "POST" and request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            form = UserUpdateForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(
+                    request, "Tu información ha sido actualizada exitosamente."
+                )
+                return JsonResponse({"success": True, "message": "Información actualizada exitosamente."})
+            else:
+                messages.error(
+                    request, "Hubo un error al actualizar tu información. Por favor, revisa los campos."
+                )
+                return JsonResponse({"success": False, "errors": form.errors}, status=400)
+        else:
+            form = UserUpdateForm(instance=request.user)
+    except Exception as e:
+        messages.error(
+            request, "Ocurrió un error inesperado. Por favor, intenta de nuevo."
+        )
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error en la vista configuration: {e}")
+        return JsonResponse({"success": False, "error": "Ocurrió un error inesperado."}, status=500)
+
+    return render(request, "configuration.html", {"form": form})
 
 
 # Vista para obtener los horarios disponibles
 @login_required
 def get_available_times(request, doctor_id, date):
     try:
+        # Recuperar el horario seleccionado si se envió como parámetro
+        selected_time = request.GET.get("selected_time")
+
         # Convertir la fecha de string a objeto date
         appointment_date = datetime.strptime(date, "%Y-%m-%d").date()
 
@@ -146,8 +175,16 @@ def get_available_times(request, doctor_id, date):
             appointment.appointment_time for appointment in appointments]
 
         # Filtrar los horarios disponibles
-        available_times = [shift.strftime(
-            "%H:%M") for shift in all_shifts if shift not in occupied_times]
+        available_times = [
+            shift.strftime("%H:%M") for shift in all_shifts
+            if shift.strftime("%H:%M") not in [t.strftime("%H:%M") for t in occupied_times]
+        ]
+
+        # Verificar si existe un horario seleccionado y agregarlo a los horarios disponibles
+        if selected_time and selected_time not in available_times:
+            # Agregar el horario seleccionado
+            available_times.append(selected_time)
+            available_times.sort()  # Ordenar los horarios nuevamente
 
         # Retornar los horarios disponibles
         if available_times:
@@ -163,9 +200,19 @@ def get_available_times(request, doctor_id, date):
 # Vista para obtener los nombres de las especialidades
 @login_required
 def get_specialities(request):
-    specialities = list(Speciality.objects.values('id', 'name'))
+    # Obtener el parámetro de búsqueda, si existe
+    search_query = request.GET.get('search', '').lower()
 
-    if (len(specialities) > 0):
+    # Si hay un parámetro de búsqueda, filtrar las especialidades
+    if search_query:
+        specialities = list(Speciality.objects.filter(
+            name__icontains=search_query).values('id', 'name', 'description'))
+    else:
+        # Si no hay búsqueda, devolver solo los nombres de las especialidades
+        specialities = list(Speciality.objects.values(
+            'id', 'name', 'description'))
+
+    if len(specialities) > 0:
         data = {'message': "Success", 'specialities': specialities}
     else:
         data = {'message': "Not Found"}
@@ -198,7 +245,7 @@ def book_appointment(request):
         is_secretaria = user.groups.filter(name='Secretaria').exists()
 
         doctor_id = request.POST.get('doctor_id')
-        speciality_id = request.POST.get('speciality_id')  # Nuevo campo
+        speciality_id = request.POST.get('speciality_id')
         appointment_date = request.POST.get('appointment_date')
         appointment_time = request.POST.get('appointment_time')
         reason = request.POST.get('reason')
@@ -221,6 +268,18 @@ def book_appointment(request):
             patient = get_object_or_404(User, id=patient_id)
         else:
             messages.error(request, 'No tiene permisos para agendar citas.')
+            return redirect('schedule_appointment_patient')
+
+        # Validación de la regla de negocio: máximo 2 citas con diferentes médicos por día
+        existing_appointments = Appointment.objects.filter(
+            patient=patient,
+            appointment_date=appointment_date,
+            status='CONFIRMED'
+        ).values('doctor').distinct()
+
+        if len(existing_appointments) >= 2:
+            messages.error(
+                request, 'No puedes reservar más de dos citas con diferentes médicos en el mismo día.')
             return redirect('schedule_appointment_patient')
 
         try:
@@ -294,7 +353,7 @@ def future_appointments(request):
         # Si es una solicitud htmx, solo devuelve el fragmento de la tabla
         return render(request, 'patient/appointments_table.html', {'appointments': appointments})
 
-    return render(request, 'patient/future_appointments.html', {'appointments': appointments})
+    return render(request, 'patient/my_appointments.html', {'appointments': appointments})
 
 
 # Vista que devuelve los detalles de la cita
@@ -431,3 +490,103 @@ def diagnostic_details(request, diagnostic_id):
         return render(request, 'patient/diagnostic_details.html', context)
     except MedicalHistory.DoesNotExist:
         return JsonResponse({"message": "Diagnóstico no encontrado"}, status=404)
+
+
+# Vista para mostrar información detallada de las especialidades
+@login_required
+def speciality_detail(request, speciality_id):
+    # Obtener la especialidad específica
+    speciality = get_object_or_404(Speciality, id=speciality_id)
+
+    # Filtrar los doctores que tienen esta especialidad
+    doctors = Doctor.objects.filter(specialities=speciality)
+
+    return render(request, 'patient/speciality_detail.html', {
+        'speciality': speciality,
+        'doctors': doctors,
+    })
+
+
+# Vista para renderizar el formulario de edición de una cita
+@login_required
+def edit_appointment_view(request, appointment_id):
+    # Obtener la cita seleccionada
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    # Contexto para renderizar el formulario
+    context = {
+        "appointment": appointment,  # Datos básicos de la cita
+    }
+
+    return render(request, "patient/edit_appointment.html", context)
+
+
+# Vista para guardar los datos de la cita editada
+@login_required
+def edit_appointment(request, appointment_id):
+    # Obtener la cita existente
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        doctor_id = request.POST.get('doctor_id')
+        speciality_id = request.POST.get('speciality_id')
+        appointment_date = request.POST.get('appointment_date')
+        appointment_time = request.POST.get('appointment_time')
+        reason = request.POST.get('reason')
+
+        # Validar que todos los campos estén completos
+        if not all([doctor_id, speciality_id, appointment_date, appointment_time, reason]):
+            messages.error(
+                request, 'Por favor, complete todos los campos requeridos.')
+            return redirect('edit_appointment_view', appointment_id=appointment_id)
+
+        # Validar disponibilidad del doctor
+        if Appointment.objects.filter(
+            doctor_id=doctor_id,
+            appointment_date=appointment_date,
+            appointment_time=appointment_time,
+            status='CONFIRMED'
+        ).exclude(pk=appointment.id).exists():
+            messages.error(
+                request, 'El doctor ya tiene una cita en este horario.')
+            return redirect('edit_appointment_view', appointment_id=appointment_id)
+
+        # Validar el límite de citas por día del paciente
+        same_day_appointments = Appointment.objects.filter(
+            patient=appointment.patient,
+            appointment_date=appointment_date,
+            status='CONFIRMED'
+        ).exclude(pk=appointment.id).values('doctor').distinct()
+
+        if len(same_day_appointments) >= 2:
+            messages.error(
+                request, 'No puedes tener más de dos citas con diferentes médicos en el mismo día.')
+            return redirect('edit_appointment_view', appointment_id=appointment_id)
+
+        # Actualizar la cita con los datos validados
+        appointment.doctor_id = doctor_id
+        appointment.speciality_id = speciality_id
+        appointment.appointment_date = appointment_date
+        appointment.appointment_time = appointment_time
+        appointment.reason = reason
+
+        try:
+            # Validar y guardar los cambios
+            appointment.full_clean()  # Validación a nivel de modelo
+            appointment.save()
+
+            messages.success(request, 'La cita se actualizó correctamente.')
+            return redirect('future_appointments')
+
+        except ValidationError as e:
+            for error in e.messages:
+                messages.error(request, error)
+
+        except Exception:
+            messages.error(
+                request, 'Ocurrió un error al editar la cita. Por favor, inténtelo de nuevo.')
+
+    # Manejar solicitudes GET para precargar los datos del formulario
+    context = {'appointment': appointment}
+    return render(request, 'edit_appointment.html', context)

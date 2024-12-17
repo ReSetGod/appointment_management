@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="content">
-    <h2 class="my-4">Agendar cita médica</h2>
+    <h2 class="my-3">Agendar cita médica</h2>
     <form method="POST" action="{% url 'book_appointment' %}">
         {% csrf_token %}
         <div class="row">

@@ -18,7 +18,7 @@ li {
 }
 
 h2 {
-    color: #3e4455;
+    color: #0a2240;
 }
 
 img {
@@ -55,7 +55,7 @@ body {
     min-width: 70px;
     z-index: 1000;
     transition: all .25s ease-in-out;
-    background-color: #0E2238;
+    background-color: #003153;
     display: flex;
     flex-direction: column;
 }
@@ -113,7 +113,7 @@ a.sidebar-link {
 
 a.sidebar-link:hover {
     background-color: rgba(255, 255, 255, .075);
-    border-left: 3px solid #3b7ddd;
+    border-left: 3px solid #0077B6;
 }
 
 .sidebar-item {
@@ -124,7 +124,7 @@ a.sidebar-link:hover {
     position: absolute;
     top: 0;
     left: 70px;
-    background-color: #0e2238;
+    background-color: #0a2240;
     padding: 0;
     min-width: 15rem;
     display: none;
@@ -160,22 +160,12 @@ a.sidebar-link:hover {
 .dashboard-navbar {
     display: flex;
     flex-wrap: nowrap;
+    height: 60px;
     padding: 0.5rem 1.5rem 0;
-    background-color: #6e7a88;
+    background-color: #0077B6;
 }
 
 .dashboard-navbar form {
-    display: none;
-}
-
-.search-component {
-    display: flex;
-    flex-wrap: nowrap;
-    padding: 1.5rem 0rem 1.5rem;
-    background-color: #fff;
-}
-
-.search-component form {
     display: none;
 }
 
@@ -187,6 +177,7 @@ a.sidebar-link:hover {
 
 .dashboard-navbar .main-nav {
     margin-left: auto;
+    margin-top: 0.2rem;
 }
 
 .user-link {
@@ -207,8 +198,8 @@ a.sidebar-link:hover {
 }
 
 .avatar {
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
 }
 
@@ -246,18 +237,18 @@ a.sidebar-link:hover {
 }
 
 .user-link-dropdown .dropdown-item:hover {
-    background-color: #0077B6;
+    background-color: #003153;
     color: #FFF; /* Asegura que el texto sea visible cuando el fondo cambie */
 }
 
-/* Dashboard Content */
+/* Specialities menu Content */
 
 .content {
     padding: 2rem;
     flex: 1 1 auto;
 }
 
-.dashboard-card {
+.speciality-card {
     grid-template-columns: repeat(1, 1fr);
     margin: 1rem 0;
     display: grid;
@@ -265,12 +256,13 @@ a.sidebar-link:hover {
 }
 
 .card {
-    background-color: #f5f5f5;
+    background-color: #e7e7e7c5;
     padding: 1.5rem 1rem;
     color: #000;
     border-radius: 5px;
     transition: .4s;
     cursor: pointer;
+    --bs-card-border-width: 0;
 }
 
 .title {
@@ -285,7 +277,7 @@ a.sidebar-link:hover {
 }
 
 .card:hover {
-    background-color: #293b5f;
+    background-color: #003153;
     color: #FFF;
     transform: translateY(-10.5px);
 }
@@ -356,43 +348,9 @@ a.sidebar-link:hover {
         max-width: 320px;
     }
 
-    .search-component form {
-        display: block;
-        max-width: 320px;
-    }
-
-    .nav-search {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .nav-search .search-query {
-        flex: 1 1 auto;
-        width: 1%;
-        height: calc(1.5em + .9rem + 2px);
-        padding: 0 20px;
-        border: none;
-        color: #3e4455;
-        font-family: 'Poppins', sans-serif;
-        background-color: rgb(245, 245, 245);
-    }
-
-    .nav-search .search-query:focus-visible {
-        outline: none;
-    }
-
-    .nav-search .btn {
-        border: 0;
-        background-color: #0077B6;
-        color: #FFF;
-        padding: 0.45rem 0.9rem;
-        font-family: 'Poppins', sans-serif;
-        cursor: pointer;
-    }
-
     /* Dashboard Content  */
 
-    .dashboard-card {
+    .speciality-card {
         grid-template-columns: repeat(3, 1fr);
     }
 
@@ -427,14 +385,22 @@ a.sidebar-link:hover {
 
   .custom-button:hover {
     background-color: #005f8a; 
+    color: #dddddd;
   }
+
+  .custom-button:disabled {
+    background-color: #77a9c4;
+    color: #dddddd;
+     
+    cursor: not-allowed;      /* Cursor de no permitido */
+}
 
 /* Grid.js table, personalized styles */
 
 /* Estilo para las celdas y el encabezado */
 .gridjs-th {
     color: #FFF !important;
-    background-color: #293b5f !important; /* Para que las líneas sean visibles */
+    background-color: #003153 !important; /* Para que las líneas sean visibles */
 }
 
 /* Estilo para el estado neutral (sin ordenar) */
@@ -500,7 +466,7 @@ button.gridjs-sort-desc {
 }
 
 .table-next-appointments th {
-    background-color: #293b5f;
+    background-color: #003153;
     color: #FFF;
     border: 1px solid #fff;
 }
@@ -513,6 +479,124 @@ button.gridjs-sort-desc {
 }
 
 /* Para que las cabeceras tengan un estilo consistente */
-.table-next-appointments th {
-    background-color: #293b5f; 
+
+
+/* Estilos para el contenedor de la barra de búsqueda */
+.search-component {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.search-query {
+    width: 100%;
+    height: 35px;
+    padding: 10px 40px 10px 15px; /* Espacio para el ícono de borrar */
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-query:focus {
+    border-color: #007bff; /* Cambia a un color de borde más llamativo al enfocar */
+}
+
+.clear-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    cursor: pointer;
+    color: #007bff;
+    display: none; /* Oculto por defecto */
+}
+
+.clear-btn:hover {
+    color: #333;
+}
+
+/* Estilos para las tarjetas de doctores y descripciones de las especialidades */
+.speciality-description {
+    color: #0a2240;
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.doctors-title {
+    color: #0a2240;
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.speciality-description {
+    color: #0a2240;
+    text-align: justify;
+}
+
+h3 {
+    color: #0a2240;
+}
+
+.doctor-cards {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas pasen a nuevas filas */
+    gap: 15px; /* Espacio entre tarjetas */
+    margin-top: 20px;
+    justify-content: space-around; /* Distribuye las tarjetas uniformemente */
+    justify-content: flex-start; 
+}
+
+.doctor-card {
+    display: flex;
+    align-items: center;
+    background-color: #e9ecef; /* Fondo suave para la tarjeta */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    width: calc(33.33% - 15px); /* Ancho de 3 tarjetas por fila */
+    max-width: 24rem; /* Limitar el tamaño máximo de cada tarjeta */
+    flex: 1 1 calc(33.33% - 15px); /* Permite que cada tarjeta ocupe el espacio adecuado */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .doctor-card {
+        width: calc(50% - 15px); /* Cambia a 2 tarjetas por fila en pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .doctor-card {
+        width: 100%; /* En pantallas muy pequeñas, muestra una tarjeta por fila */
+    }
+}
+
+.icon-doctor {
+    font-size: 50px;
+    color: #0077B6;
+    margin-right: 15px; /* Espacio entre ícono y texto */
+}
+
+.doctor-info p {
+    margin: 4px 0;
+}
+
+
+/* Cambiar contraseña */
+.card.no-hover {
+    background-color: #e7e7e7c5; /* Color de fondo específico */
+    padding: 1.5rem;
+    color: #000;
+    border-radius: 5px;
+    cursor: default; /* Evita el efecto de puntero */
+    transition: none; /* Sin transición */
+}
+
+.card.no-hover:hover {
+    color: #000;
+    transform: none; /* Sin animación */
 }

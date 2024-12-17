@@ -6,6 +6,11 @@
 <p><strong>Estado:</strong> {{ appointment.get_status_display }}</p>
 <p><strong>ID de Cita:</strong> {{ appointment.id }}</p>
 
+
+<!-- Botón Editar dentro de los detalles -->
+<a href="{% url 'edit_appointment_view' appointment.id %}" class="btn custom-button">
+    <i class="fa-solid fa-pen-to-square"></i> Editar cita
+</a>
 <!-- Botón Cancelar dentro de los detalles -->
 <button class="btn btn-danger" id="cancelAppointmentBtn" hx-delete="{% url 'cancel_appointment' appointment.id %}"
     hx-target="this" hx-swap="none" hx-on="htmx:afterRequest: handleCancellationResponse(event)"

@@ -1,7 +1,7 @@
 from allauth.account.forms import SignupForm
 from django import forms
 from django.contrib.auth.models import Group
-from .models import Appointment, Doctor, Speciality
+from .models import Appointment, Doctor, Speciality, User
 
 
 class CustomSignupForm(SignupForm):
@@ -49,3 +49,48 @@ class CustomSignupForm(SignupForm):
         user.groups.add(patient_group)
 
         return user
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "username", "first_name", "last_name", "middle_name",
+            "maternal_surname", "identification", "address", "city",
+            "phone_number", "birth_date", "genre"
+        ]
+        labels = {
+            "username": "Nombre de usuario",
+            "first_name": "Primer nombre",
+            "last_name": "Primer apellido",
+            "middle_name": "Segundo nombre",
+            "maternal_surname": "Segundo apellido",
+            "identification": "Identificación",
+            "address": "Dirección",
+            "city": "Ciudad de residencia",
+            "phone_number": "Número de celular",
+            "birth_date": "Fecha de nacimiento",
+            "genre": "Género",
+        }
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "middle_name": forms.TextInput(attrs={"class": "form-control"}),
+            "maternal_surname": forms.TextInput(attrs={"class": "form-control"}),
+            "identification": forms.TextInput(attrs={"class": "form-control"}),
+            "address": forms.TextInput(attrs={"class": "form-control"}),
+            "city": forms.TextInput(attrs={"class": "form-control"}),
+            "phone_number": forms.TextInput(attrs={"class": "form-control"}),
+            "birth_date": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
+            ),
+            "genre": forms.Select(attrs={"class": "form-select"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Asegurarse de que la fecha siga el formato correcto
+        if self.instance and self.instance.birth_date:
+            self.initial["birth_date"] = self.instance.birth_date.strftime(
+                "%Y-%m-%d")
