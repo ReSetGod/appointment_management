@@ -51,6 +51,11 @@ urlpatterns = [
          views.diagnostic_details, name='diagnostic_details'),
     path('specialities/<int:speciality_id>/',
          views.speciality_detail, name='speciality_detail'),
+    path('email/', views.render_email_page, name='render_email_page'),
+    path('email/update/', views.update_email_view, name='update_email_view'),
+
+    # Eliminar usuarios
+    path('users/delete/', views.delete_user, name='delete_user'),
 
     # Vistas para editar las citas
     path("appointments/edit/<int:appointment_id>/",

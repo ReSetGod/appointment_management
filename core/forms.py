@@ -1,4 +1,5 @@
-from allauth.account.forms import SignupForm
+from allauth.account.forms import SignupForm, AddEmailForm
+from allauth.account.models import EmailAddress
 from django import forms
 from django.contrib.auth.models import Group
 from .models import Appointment, Doctor, Speciality, User
@@ -78,14 +79,29 @@ class UserUpdateForm(forms.ModelForm):
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "middle_name": forms.TextInput(attrs={"class": "form-control"}),
             "maternal_surname": forms.TextInput(attrs={"class": "form-control"}),
-            "identification": forms.TextInput(attrs={"class": "form-control"}),
+            "identification": forms.TextInput(attrs={
+                "class": "form-control",
+                "maxlength": "13",
+                "minlength": "10",
+                "pattern": "[0-9]+",
+                "title": "Debe contener entre 10 y 13 números"
+            }),
             "address": forms.TextInput(attrs={"class": "form-control"}),
             "city": forms.TextInput(attrs={"class": "form-control"}),
-            "phone_number": forms.TextInput(attrs={"class": "form-control"}),
+            "phone_number": forms.TextInput(attrs={
+                "class": "form-control",
+                "maxlength": "10",
+                "minlength": "10",
+                "pattern": "[0-9]+",
+                "title": "Debe contener exactamente 10 números"
+            }),
             "birth_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}, format="%Y-%m-%d"
             ),
-            "genre": forms.Select(attrs={"class": "form-select"}),
+            "genre": forms.Select(attrs={"class": "form-select"}, choices=[
+                ('M', 'Masculino'),
+                ('F', 'Femenino'),
+            ]),
         }
 
     def __init__(self, *args, **kwargs):
@@ -94,3 +110,25 @@ class UserUpdateForm(forms.ModelForm):
         if self.instance and self.instance.birth_date:
             self.initial["birth_date"] = self.instance.birth_date.strftime(
                 "%Y-%m-%d")
+
+
+class CustomEmailForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingresa tu nuevo correo electrónico'
+        }),
+        label="Nuevo Correo Electrónico",
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # Verifica si el correo ya está asociado a este usuario
+        if EmailAddress.objects.filter(user=self.user, email=email).exists():
+            raise forms.ValidationError("Este correo ya está registrado.")
+        return email

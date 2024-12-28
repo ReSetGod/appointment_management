@@ -17,7 +17,7 @@ class User(AbstractUser):
         ('F', 'Femenino'),
     ]
     genre = models.CharField(
-        max_length=1, choices=GENRE_CHOICES, blank=True, null=True)
+        max_length=1, choices=GENRE_CHOICES, blank=False, null=False)
 
     def __str__(self):
         return self.username

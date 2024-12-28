@@ -24,16 +24,26 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" id="submitButton" class="btn custom-button mt-3" disabled>Guardar
-                Cambios</button>
+            <div class="d-grid gap-2 d-md-block">
+                <button type="submit" id="submitButton" class="btn custom-button mt-3" disabled>
+                    <i class="fa-regular fa-pen-to-square"></i> Guardar Cambios</button>
+                <a class="btn btn-success mt-3" href="{% url 'account_change_password' %}" role="button">
+                    <i class="fa-solid fa-key"></i> Cambiar Contraseña</a>
+                <a class="btn btn-secondary mt-3" href="{% url 'render_email_page' %}" role="button">
+                    <i class="fa-solid fa-envelope"></i> Cambiar Correo</a>
+                <button type="button" class="btn btn-danger mt-3" id="deleteAccountButton">
+                    <i class="fa-solid fa-trash-can"></i> Eliminar cuenta</button>
+            </div>
         </form>
         <!-- Botón para abrir el modal -->
-        <a class="btn btn-success mt-3" href="{% url 'account_change_password' %}" role="button">Cambiar Contraseña o
-            Correo Electrónico</a>
+
 
     </div>
 </div>
 {% endblock %}
 {% block extra_scripts %}
+<script>
+    const deleteUserUrl = "{% url 'delete_user' %}";
+</script>
 <script src="{% static 'js/update_user_info.js' %}"></script>
 {% endblock %}
