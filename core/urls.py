@@ -25,8 +25,8 @@ urlpatterns = [
          views.manage_specialities, name='manage_specialities'),
 
     # Rutas para Secretatias
-    path('receptionist/register_patients/',
-         views.register_patients, name='register_patients'),
+    path('receptionist/manage_patients/',
+         views.manage_patients, name='manage_patients'),
 
     # Configuración
     path('shared/configuration/', views.configuration, name='configuration'),
@@ -58,15 +58,23 @@ urlpatterns = [
     path('search_patients/', views.search_patients, name='search_patients'),
     path('load_doctors/', views.load_doctors, name='load_doctors'),
     path('load_specialities/', views.load_specialities, name='load_specialities'),
+    path('load_patients/', views.load_patients, name='load_patients'),
+
 
     # Eliminar usuarios
     path('users/delete/', views.delete_user, name='delete_user'),
     path('delete_doctor/', views.delete_doctor, name='delete_doctor'),
+    path('delete_patient/', views.delete_patient, name='delete_patient'),
 
     # Crear y editar doctor
     path('create-doctor/', views.create_or_edit_doctor, name='create_doctor'),
     path('edit_doctor/<int:doctor_id>/',
          views.create_or_edit_doctor, name='edit_doctor'),
+
+    # Crear y editar paciente
+    path('create-patient/', views.create_or_edit_patient, name='create_patient'),
+    path('edit_patient/<int:patient_id>/',
+         views.create_or_edit_patient, name='edit_patient'),
 
     # Crear y editar especialidad
     path('create-speciality/', views.create_or_edit_speciality,

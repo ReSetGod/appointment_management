@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
 from core.forms import SpecialityForm
-from core.models import Speciality
+from core.models import Doctor, Speciality
 from core.utils import is_admin, is_receptionist
 
 
@@ -127,3 +127,17 @@ def get_specialities(request):
         data = {'message': "Not Found"}
 
     return JsonResponse(data)
+
+
+@login_required
+def speciality_detail(request, speciality_id):
+    # Obtener la especialidad específica
+    speciality = get_object_or_404(Speciality, id=speciality_id)
+
+    # Filtrar los doctores que tienen esta especialidad
+    doctors = Doctor.objects.filter(specialities=speciality)
+
+    return render(request, 'patient/speciality_detail.html', {
+        'speciality': speciality,
+        'doctors': doctors,
+    })

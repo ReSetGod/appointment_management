@@ -39,7 +39,7 @@ const setupPatientSearch = () => {
     // Añade el botón para cargar citas
     const loadAppointmentsButton = document.createElement('button');
     loadAppointmentsButton.textContent = 'Cargar Citas';
-    loadAppointmentsButton.classList.add('btn', 'btn-primary', 'mt-2');
+    loadAppointmentsButton.classList.add('btn', 'custom-button', 'mt-2');
     loadAppointmentsButton.style.display = 'none'; // Solo muestra cuando se selecciona un paciente
 
     // Agrega los atributos HTMX

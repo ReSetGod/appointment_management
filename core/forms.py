@@ -244,3 +244,67 @@ class SpecialityForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'username', 'first_name', 'middle_name', 'last_name', 'maternal_surname',
+            'email', 'identification', 'address', 'city', 'phone_number',
+            'birth_date', 'genre'
+        ]
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'maternal_surname': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'identification': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '13',
+            }),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '10',
+            }),
+            'birth_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'genre': forms.Select(attrs={'class': 'form-select'}),
+        }
+        labels = {
+            'username': 'Nombre de usuario',
+            'first_name': 'Primer nombre',
+            'middle_name': 'Segundo nombre',
+            'last_name': 'Primer apellido',
+            'maternal_surname': 'Segundo apellido',
+            'email': 'Correo electrónico',
+            'identification': 'Identificación',
+            'address': 'Dirección',
+            'city': 'Ciudad',
+            'phone_number': 'Teléfono',
+            'birth_date': 'Fecha de nacimiento',
+            'genre': 'Género'
+        }
+
+    def clean_identification(self):
+        identification = self.cleaned_data.get('identification')
+        if not identification.isdigit():
+            raise forms.ValidationError(
+                "La identificación solo debe contener números.")
+        if len(identification) > 13:
+            raise forms.ValidationError(
+                "La identificación no puede exceder los 13 caracteres.")
+        return identification
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if not phone_number.isdigit():
+            raise forms.ValidationError(
+                "El teléfono solo debe contener números.")
+        if len(phone_number) > 10:
+            raise forms.ValidationError(
+                "El teléfono no puede exceder los 10 caracteres.")
+        return phone_number

@@ -42,3 +42,8 @@ def generate_password(length=8):
 # Función para obtener el nombre completo del doctor
 def get_doctor_name(doctor):
     return f"{doctor.first_name} {doctor.middle_name or ''} {doctor.last_name} {doctor.maternal_surname or ''}".strip()
+
+
+# Función para obtener el nombre completo del paciente
+def get_patient_name(patient):
+    return f"{patient.first_name} {patient.middle_name or ''} {patient.last_name} {patient.maternal_surname or ''}".strip()
