@@ -136,19 +136,56 @@ const initialLoad = async () => {
 
     // Listener para verificar cambios
     specialitySelect.addEventListener("change", async (event) => {
-        await listDoctors(event.target.value);
+        const specialityId = event.target.value;
+    
+        // Reiniciar los campos dependientes
+        doctorSelect.innerHTML = '<option value="">Seleccione un doctor</option>';
+    
+        if (specialityId) {
+            try {
+                // Cargar los doctores asociados a la especialidad seleccionada
+                await listDoctors(specialityId);
+    
+                // Habilitar el campo de doctor si hay opciones disponibles
+                if (doctorSelect.options.length > 1) {
+                    doctorSelect.disabled = false;
+                } else {
+                    doctorSelect.disabled = true;
+                }
+            } catch (error) {
+                console.log("Error al cargar doctores:", error);
+                doctorSelect.innerHTML = '<option>No hay doctores disponibles</option>';
+            }
+        } else {
+            // Deshabilitar campos dependientes si no se selecciona especialidad
+            doctorSelect.disabled = true;
+            timeSelect.disabled = true;
+        }
+    
+        // Actualizar el estado del botón de guardar
         updateSaveButtonState();
     });
-
-    doctorSelect.addEventListener("change", () => {
-        updateSaveButtonState();
-    });
-
-    dateSelect.addEventListener("change", () => {
+    
+    doctorSelect.addEventListener("change", async () => {
         const doctorId = doctorSelect.value;
         const selectedDate = dateSelect.value;
+    
         if (doctorId && selectedDate) {
-            listAvailableTimes(doctorId, selectedDate);
+            await listAvailableTimes(doctorId, selectedDate);
+        } else {
+            timeSelect.innerHTML = '<option value="">Seleccione un horario</option>';
+        }
+        updateSaveButtonState();
+    });
+    
+    dateSelect.addEventListener("change", async () => {
+        const doctorId = doctorSelect.value;
+        const selectedDate = dateSelect.value;
+    
+        if (doctorId && selectedDate) {
+            await listAvailableTimes(doctorId, selectedDate);
+        } else {
+            timeSelect.innerHTML = '<option value="">Seleccione un horario</option>';
         }
         updateSaveButtonState();
     });

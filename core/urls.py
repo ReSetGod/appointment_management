@@ -7,27 +7,29 @@ urlpatterns = [
     # Rutas para Pacientes
     path('patient/search_doctors/', views.search_doctors,
          name='search_doctors_patient'),
-    path('patient/schedule_appointment/', views.schedule_appointment_patient,
-         name='schedule_appointment_patient'),
-    path('patient/my_appointments/', views.my_appointments,
-         name='my_appointments'),
-    path('patient/appointment_history/', views.appointment_history_patient,
-         name='appointment_history_patient'),
-    path('patient/medical_history/', views.medical_history_patient,
-         name='medical_history_patient'),
+
+    # Rutas compartidas para todos los roles
+    path('schedule_appointment/', views.schedule_appointment,
+         name='schedule_appointment'),
+    path('next_appointments', views.next_appointments,
+         name='next_appointments'),
+    path('appointment_history/', views.appointment_history,
+         name='appointment_history'),
+    path('medical_history/', views.medical_history,
+         name='medical_history'),
 
     # Rutas para Administradores
-    path('administrator/schedule_appointment/',
-         views.schedule_appointment_admin, name='schedule_appointment_admin'),
-    path('administrator/appointment_history/',
-         views.appointment_history_admin, name='appointment_history_admin'),
-    path('administrator/medical_history/',
-         views.medical_history_admin, name='medical_history_admin'),
-    path('administrator/specialties_doctors/',
-         views.specialties_doctors, name='specialties_doctors_admin'),
+    path('administrator/manage_doctors/',
+         views.manage_doctors, name='manage_doctors'),
+    path('administrator/manage_specialities/',
+         views.manage_specialities, name='manage_specialities'),
+
+    # Rutas para Secretatias
+    path('receptionist/register_patients/',
+         views.register_patients, name='register_patients'),
 
     # Configuración
-    path('configuration/', views.configuration, name='configuration'),
+    path('shared/configuration/', views.configuration, name='configuration'),
 
     # Rutas adicionales
     path('doctors/<int:specialty_id>',
@@ -43,8 +45,8 @@ urlpatterns = [
          views.appointment_details, name='appointment_details'),
     path('appointment/<int:appointment_id>/cancel/',
          views.cancel_appointment, name='cancel_appointment'),
-    path('appointment-history/', views.appointment_history,
-         name='appointment_history'),
+    path('load_appointment_history/', views.load_appointment_history,
+         name='load_appointment_history'),
     path('diagnostics-history/', views.diagnostics_history,
          name='diagnostics_history'),
     path('diagnostic/<int:diagnostic_id>/details/',
@@ -53,9 +55,28 @@ urlpatterns = [
          views.speciality_detail, name='speciality_detail'),
     path('email/', views.render_email_page, name='render_email_page'),
     path('email/update/', views.update_email_view, name='update_email_view'),
+    path('search_patients/', views.search_patients, name='search_patients'),
+    path('load_doctors/', views.load_doctors, name='load_doctors'),
+    path('load_specialities/', views.load_specialities, name='load_specialities'),
 
     # Eliminar usuarios
     path('users/delete/', views.delete_user, name='delete_user'),
+    path('delete_doctor/', views.delete_doctor, name='delete_doctor'),
+
+    # Crear y editar doctor
+    path('create-doctor/', views.create_or_edit_doctor, name='create_doctor'),
+    path('edit_doctor/<int:doctor_id>/',
+         views.create_or_edit_doctor, name='edit_doctor'),
+
+    # Crear y editar especialidad
+    path('create-speciality/', views.create_or_edit_speciality,
+         name='create-speciality'),
+    path('edit_speciality/<int:speciality_id>/',
+         views.create_or_edit_speciality, name='edit_speciality'),
+
+    # Eliminar especialidad
+    path('delete_speciality/', views.delete_speciality, name='delete_speciality'),
+
 
     # Vistas para editar las citas
     path("appointments/edit/<int:appointment_id>/",

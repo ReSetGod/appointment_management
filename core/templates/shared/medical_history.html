@@ -1,0 +1,31 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2>Historial de diagnósticos</h2>
+    {% if is_administrador or is_secretaria %}
+    <div class="col-md-5 mb-3">
+        <label for="patientSearch" class="form-label">Buscar Paciente</label>
+        <select id="patientSearch" name="patient_id">
+            <option value="">Seleccione un paciente</option>
+            {% for patient in patients %}
+            <option value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }} -
+                {{ patient.identification }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+    <br>
+    <div class="table-responsive">
+        <div id="diagnosticsHistoryTable"></div> <!-- Contenedor para Grid.js -->
+    </div>
+
+    <!-- Incluir el modal para mostrar detalles del diagnóstico -->
+    {% include 'shared/modals/modal_diagnostic_details.html' %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/diagnostics_history.js' %}"></script>
+{% endblock %}

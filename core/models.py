@@ -12,6 +12,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=15, blank=True, null=True)
     phone_number = models.CharField(max_length=10, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
+
     GENRE_CHOICES = [
         ('M', 'Masculino'),
         ('F', 'Femenino'),
@@ -128,6 +129,17 @@ class Appointment(models.Model):
                     'No puedes reservar más de dos citas con diferentes médicos en el mismo día.'
                 )
 
+        # Validación para evitar citas duplicadas en la misma fecha y hora para el mismo paciente
+        if self.status == 'CONFIRMED' and Appointment.objects.filter(
+            patient=self.patient,
+            appointment_date=self.appointment_date,
+            appointment_time=self.appointment_time,
+            status='CONFIRMED'
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError(
+                'Ya tienes una cita en este horario y fecha. Por favor, elige otro horario.'
+            )
+
     def save(self, *args, **kwargs):
         # Llamada a full_clean para realizar todas las validaciones (incluyendo clean)
         self.full_clean()
@@ -168,7 +180,10 @@ class Prescription(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL,
                                null=True, blank=True, related_name='issued_prescriptions')
     issued_at = models.DateTimeField(default=timezone.now, editable=False)
-    medication_details = models.TextField()
+    medication_details = models.TextField(
+        help_text="Detalles del medicamento: nombre, gramos, tabletas, etc.")
+    instructions = models.TextField(
+        help_text="Indicaciones: cómo y cuándo tomar el medicamento.")
     printed = models.BooleanField(default=False)
 
     class Meta:
@@ -176,7 +191,7 @@ class Prescription(models.Model):
         verbose_name_plural = 'Recetas Médicas'
 
     def __str__(self):
-        return f'Receta de {self.doctor.username} - {self.issued_at.strftime("%Y-%m-%d")}'
+        return f'Receta de {self.doctor.username} para {self.patient.username} - {self.issued_at.strftime("%Y-%m-%d")}'
 
 
 class ActionLog(models.Model):

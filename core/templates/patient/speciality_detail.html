@@ -1,10 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'shared/base.html' %}
 {% load static %}
 
 {% block content %}
 <div class="content">
     <div class="speciality-detail">
-        <h2>{{ speciality.name }}</h2>
+        <div class="header-with-back-button">
+            <a href="{% url 'search_doctors_patient' %}" class="btn custom-button" title="Regresar">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h2>{{ speciality.name }}</h2>
+        </div>
         <p class="speciality-description">{{ speciality.detailed_description|default:speciality.description }}</p>
 
         <h3>Doctores en {{ speciality.name }}</h3>

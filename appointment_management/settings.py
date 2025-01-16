@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -155,32 +156,10 @@ AUTH_USER_MODEL = 'core.User'
 
 LOGIN_URL = '/accounts/login/'
 # Redirige a la vista home después de iniciar sesión
-LOGIN_REDIRECT_URL = '/core/home/'
+LOGIN_REDIRECT_URL = 'home'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET = True
-
-# Configuración para guardar los log's de advertencias o errores en archivos
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/system.log'),
-            'maxBytes': 1024*1024*5,  # 5MB
-            'backupCount': 5,  # Mantener 5 backups de logs viejos
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
-    },
-}

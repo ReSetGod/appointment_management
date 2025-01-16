@@ -478,9 +478,6 @@ button.gridjs-sort-desc {
     border: 1px solid #e5e7eb; 
 }
 
-/* Para que las cabeceras tengan un estilo consistente */
-
-
 /* Estilos para el contenedor de la barra de búsqueda */
 .search-component {
     position: relative;
@@ -599,4 +596,20 @@ h3 {
 .card.no-hover:hover {
     color: #000;
     transform: none; /* Sin animación */
+}
+
+
+.gridjs-tr.table-active > * {
+    background: transparent !important;
+}
+
+.gridjs-tr.table-active {
+    background-color: #d1e0ff!important;
+    font-weight: bold;
+}
+
+.header-with-back-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }

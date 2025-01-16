@@ -1,0 +1,43 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2>Próximas citas</h2>
+
+    {% if is_administrador or is_secretaria %}
+    <div class="col-md-5 mb-3">
+        <label for="patientSearch" class="form-label">Buscar Paciente</label>
+        <select id="patientSearch" name="patient_id">
+            <option value="">Seleccione un paciente</option>
+            {% for patient in patients %}
+            <option value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }} -
+                {{ patient.identification }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+
+    <div style="overflow-x:auto;" class="table-responsive">
+        <table id="posts" class="table-next-appointments">
+            <thead>
+                <tr>
+                    <th style="width:5%">N°</th>
+                    <th style="width:30%">Médico</th>
+                    <th style="width:30%">Fecha</th>
+                    <th style="width:30%">Horario</th>
+                    <th style="width:5%">Acción</th>
+                </tr>
+            </thead>
+            <tbody hx-get="{% url 'future_appointments' %}" hx-trigger="load" hx-target="#posts tbody"
+                hx-swap="outerHTML">
+                <!-- Este tbody se actualizará con htmx -->
+            </tbody>
+        </table>
+        {% include 'shared/modals/modal_appointment_details.html' %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/load_data_patients.js' %}"></script>
+{% endblock %}

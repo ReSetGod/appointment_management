@@ -132,3 +132,115 @@ class CustomEmailForm(forms.Form):
         if EmailAddress.objects.filter(user=self.user, email=email).exists():
             raise forms.ValidationError("Este correo ya está registrado.")
         return email
+
+
+class DoctorForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = [
+            'username', 'first_name', 'middle_name', 'last_name', 'maternal_surname',
+            'email', 'identification', 'address', 'city', 'phone_number',
+            'birth_date', 'genre', 'specialities'
+        ]
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'maternal_surname': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'identification': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '13',
+            }),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '10',
+            }),
+            'birth_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'genre': forms.Select(attrs={'class': 'form-select'}),
+            'specialities': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'username': 'Nombre de usuario',
+            'first_name': 'Primer nombre',
+            'middle_name': 'Segundo nombre',
+            'last_name': 'Primer apellido',
+            'maternal_surname': 'Segundo apellido',
+            'email': 'Correo electrónico',
+            'identification': 'Identificación',
+            'address': 'Dirección',
+            'city': 'Ciudad',
+            'phone_number': 'Teléfono',
+            'birth_date': 'Fecha de nacimiento',
+            'genre': 'Género',
+            'specialities': 'Especialidades',
+        }
+
+    def clean_identification(self):
+        identification = self.cleaned_data.get('identification')
+        if not identification.isdigit():
+            raise forms.ValidationError(
+                "La identificación solo debe contener números.")
+        if len(identification) > 13:
+            raise forms.ValidationError(
+                "La identificación no puede exceder los 13 caracteres.")
+        return identification
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if not phone_number.isdigit():
+            raise forms.ValidationError(
+                "El teléfono solo debe contener números.")
+        if len(phone_number) > 10:
+            raise forms.ValidationError(
+                "El teléfono no puede exceder los 10 caracteres.")
+        return phone_number
+
+
+class SpecialityForm(forms.ModelForm):
+    STATUS_CHOICES = (
+        ('True', 'Activo'),
+        ('False', 'Inactivo'),
+    )
+
+    status = forms.ChoiceField(
+        choices=STATUS_CHOICES,
+        widget=forms.RadioSelect,
+        label="Estado"
+    )
+
+    class Meta:
+        model = Speciality
+        fields = [
+            'name', 'description', 'detailed_description', 'status'
+        ]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Descripción breve',
+                'rows': 3  # Cambiar tamaño del textarea
+            }),
+            'detailed_description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Descripción detallada (opcional)',
+                'rows': 4  # Cambiar tamaño del textarea
+            }),
+        }
+        labels = {
+            'name': 'Nombre de la especialidad',
+            'description': 'Descripción',
+            'detailed_description': 'Descripción detallada',
+            'status': 'Estado',
+        }
+
+    def save(self, commit=True):
+        """Convierte el valor del estado a booleano antes de guardar."""
+        instance = super().save(commit=False)
+        instance.status = self.cleaned_data['status'] == 'True'
+        if commit:
+            instance.save()
+        return instance

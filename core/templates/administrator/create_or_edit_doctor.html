@@ -1,0 +1,182 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>
+        {% if is_editing %}
+            Editar Doctor
+        {% else %}
+            Crear Doctor
+        {% endif %}
+    </h2>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.first_name.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.middle_name.label_tag }}
+                {{ form.middle_name }}
+                {% if form.middle_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.middle_name.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.last_name.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.maternal_surname.label_tag }}
+                {{ form.maternal_surname }}
+                {% if form.maternal_surname.errors %}
+                <div class="text-danger">
+                    {% for error in form.maternal_surname.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.identification.label_tag }}
+                {{ form.identification }}
+                {% if form.identification.errors %}
+                <div class="text-danger">
+                    {% for error in form.identification.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.phone_number.label_tag }}
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}
+                <div class="text-danger">
+                    {% for error in form.phone_number.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.address.label_tag }}
+                {{ form.address }}
+                {% if form.address.errors %}
+                <div class="text-danger">
+                    {% for error in form.address.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.city.label_tag }}
+                {{ form.city }}
+                {% if form.city.errors %}
+                <div class="text-danger">
+                    {% for error in form.city.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.birth_date.label_tag }}
+                {{ form.birth_date }}
+                {% if form.birth_date.errors %}
+                <div class="text-danger">
+                    {% for error in form.birth_date.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.genre.label_tag }}
+                {{ form.genre }}
+                {% if form.genre.errors %}
+                <div class="text-danger">
+                    {% for error in form.genre.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.specialities.label_tag }}
+                {{ form.specialities }}
+                {% if form.specialities.errors %}
+                <div class="text-danger">
+                    {% for error in form.specialities.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            {% if is_editing %}
+                Guardar Cambios
+            {% else %}
+                Crear
+            {% endif %}
+        </button>
+        <a href="{% url 'manage_doctors' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
