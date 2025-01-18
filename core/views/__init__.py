@@ -6,8 +6,10 @@ from .speciality_views import (
     manage_specialities, create_or_edit_speciality, delete_speciality, load_specialities, get_specialities, speciality_detail
 )
 from .appointment_views import (
-    schedule_appointment, book_appointment, edit_appointment_view, edit_appointment, cancel_appointment, appointment_details, future_appointments, load_appointment_history, appointment_history, next_appointments
+    schedule_appointment, book_appointment, edit_appointment_view, edit_appointment, cancel_appointment, appointment_details, future_appointments, load_appointment_history, appointment_history, next_appointments, search_attended_appointments
 )
 from .shared_views import home, configuration, get_available_times, search_patients
 
-from .diagnostics_views import diagnostics_history, diagnostic_details, medical_history
+from .diagnoses_views import diagnostics_history, diagnostic_details, medical_history, load_medical_histories, create_or_edit_medical_history, delete_medical_history, manage_diagnosis
+
+from .prescription_views import create_prescription, download_prescription

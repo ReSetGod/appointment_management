@@ -57,8 +57,8 @@ class MedicalHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(Prescription)
 class PrescriptionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'medical_history', 'doctor', 'issued_at', 'printed')
-    list_filter = ('issued_at', 'doctor', 'printed')
+    list_display = ('id', 'medical_history', 'doctor', 'issued_at')
+    list_filter = ('issued_at', 'doctor')
     search_fields = ('medical_history__patient__username',
                      'doctor__username', 'medication_details')
     readonly_fields = ('issued_at',)

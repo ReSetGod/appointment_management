@@ -4,7 +4,7 @@
 {% block content %}
 <div class="content">
     <h2>Historial de citas</h2>
-    {% if is_administrador or is_secretaria %}
+    {% if is_administrador or is_secretaria or is_doctor %}
     <div class="col-md-5 mb-3">
         <label for="patientSearch" class="form-label">Buscar Paciente</label>
         <select id="patientSearch" name="patient_id">

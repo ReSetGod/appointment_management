@@ -28,6 +28,10 @@ urlpatterns = [
     path('receptionist/manage_patients/',
          views.manage_patients, name='manage_patients'),
 
+    # Rutas para Doctores
+    path('doctor/manage_diagnosis/',
+         views.manage_diagnosis, name='manage_diagnosis'),
+
     # Configuración
     path('shared/configuration/', views.configuration, name='configuration'),
 
@@ -59,6 +63,10 @@ urlpatterns = [
     path('load_doctors/', views.load_doctors, name='load_doctors'),
     path('load_specialities/', views.load_specialities, name='load_specialities'),
     path('load_patients/', views.load_patients, name='load_patients'),
+    path('load_medical_histories/', views.load_medical_histories,
+         name='load_medical_histories'),
+    path('search_attended_appointments/', views.search_attended_appointments,
+         name='search_attended_appointments'),
 
 
     # Eliminar usuarios
@@ -85,10 +93,26 @@ urlpatterns = [
     # Eliminar especialidad
     path('delete_speciality/', views.delete_speciality, name='delete_speciality'),
 
+    # Crear y editar diagnóstico
+    path('create-diagnosis/', views.create_or_edit_medical_history,
+         name='create-diagnosis'),
+    path('edit_medical_history/<int:medical_history_id>/',
+         views.create_or_edit_medical_history, name='edit_diagnosis'),
+
+    # Eliminar diagnóstico
+    path('delete_medical_history/', views.delete_medical_history,
+         name='delete_medical_history'),
+
 
     # Vistas para editar las citas
     path("appointments/edit/<int:appointment_id>/",
          views.edit_appointment_view, name="edit_appointment_view"),
     path("appointments/edit/<int:appointment_id>/save/",
          views.edit_appointment, name="edit_appointment"),
+
+    # Vistas para recetas
+    path('create-prescription/<int:medical_history_id>/',
+         views.create_prescription, name='create_prescription'),
+    path('download-prescription/<int:prescription_id>/',
+         views.download_prescription, name='download_prescription'),
 ]

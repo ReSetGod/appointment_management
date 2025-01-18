@@ -1,0 +1,26 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2>Gestión de Diagnósticos</h2>
+    <br>
+    <div clss="table-responsive">
+        <div class="mb-3">
+            <button id="btn-edit" class="btn btn-primary btn-sm me-2" disabled>
+                <i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button id="btn-delete" class="btn btn-danger btn-sm me-2" disabled>
+                <i class="fa-solid fa-trash-can"></i> Eliminar</button>
+            <a href="{% url 'create-diagnosis' %}" class="btn btn-success btn-sm me-2">
+                <i class="fa-solid fa-circle-plus"></i> Crear diagnóstico</a>
+            <button id="btn-add-recipe" class="btn custom-button btn-sm" disabled>
+                <i class="fa-solid fa-prescription-bottle"></i> Añadir receta</button>
+        </div>
+        <div id="medicalHistoryTable"></div> <!-- Contenedor para Grid.js -->
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/diagnosis_management.js' %}"></script>
+{% endblock %}

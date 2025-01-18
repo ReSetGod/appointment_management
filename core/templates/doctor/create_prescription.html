@@ -1,0 +1,40 @@
+{% extends "shared/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Crear Receta Médica</h2>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.medication_details.label_tag }}
+                {{ form.medication_details }}
+                {% if form.medication_details.errors %}
+                <div class="text-danger">
+                    {% for error in form.medication_details.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.instructions.label_tag }}
+                {{ form.instructions }}
+                {% if form.instructions.errors %}
+                <div class="text-danger">
+                    {% for error in form.instructions.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Generar Receta</button>
+        <a href="{% url 'manage_diagnosis' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

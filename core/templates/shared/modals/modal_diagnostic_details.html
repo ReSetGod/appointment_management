@@ -16,3 +16,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const downloadBtn = document.getElementById('downloadPrescriptionBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function () {
+                const prescriptionId = this.dataset.prescriptionId;
+                downloadPrescription(prescriptionId);
+            });
+        }
+    });
+</script>

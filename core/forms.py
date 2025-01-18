@@ -2,7 +2,7 @@ from allauth.account.forms import SignupForm, AddEmailForm
 from allauth.account.models import EmailAddress
 from django import forms
 from django.contrib.auth.models import Group
-from .models import Appointment, Doctor, Speciality, User
+from .models import Appointment, Doctor, MedicalHistory, Prescription, Speciality, User
 
 
 class CustomSignupForm(SignupForm):
@@ -308,3 +308,65 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError(
                 "El teléfono no puede exceder los 10 caracteres.")
         return phone_number
+
+
+class MedicalHistoryForm(forms.ModelForm):
+    class Meta:
+        model = MedicalHistory
+        fields = ['appointment', 'diagnosis', 'treatment', 'status']
+        widgets = {
+            'appointment': forms.Select(attrs={
+                'id': 'appointmentSearch',
+                'placeholder': 'Seleccione una cita...',
+            }),
+            'diagnosis': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Detalles del diagnóstico...'
+            }),
+            'treatment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Plan de tratamiento o indicaciones...'
+            }),
+            'status': forms.Select(attrs={'class': 'form-select'})
+        }
+        labels = {
+            'appointment': 'Cita',
+            'diagnosis': 'Diagnóstico',
+            'treatment': 'Tratamiento',
+            'status': 'Estado',
+        }
+
+    def save(self, commit=True, doctor=None):
+        instance = super().save(commit=False)
+        if doctor:
+            instance.doctor = doctor
+        # Vincula automáticamente el paciente basado en la cita seleccionada
+        if instance.appointment:
+            instance.patient = instance.appointment.patient
+        if commit:
+            instance.save()
+        return instance
+
+
+class PrescriptionForm(forms.ModelForm):
+    class Meta:
+        model = Prescription
+        fields = ['medication_details', 'instructions']
+        widgets = {
+            'medication_details': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Nombre, gramos, tabletas, etc.'
+            }),
+            'instructions': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Cómo y cuándo tomar el medicamento.'
+            }),
+        }
+        labels = {
+            'medication_details': 'Detalles del Medicamento',
+            'instructions': 'Indicaciones',
+        }

@@ -108,17 +108,20 @@ def get_available_times(request, doctor_id, date):
 # Vista para buscar pacientes
 @login_required
 def search_patients(request):
-    if request.method == 'GET':
-        query = request.GET.get('query', '')
-        if query:
-            patients = User.objects.filter(
-                groups__name='Paciente'
-            ).filter(
-                Q(identification__icontains=query) |
-                Q(first_name__icontains=query) |
-                Q(last_name__icontains=query)
-            ).values('id', 'first_name', 'last_name', 'identification')
+    try:
+        if request.method == 'GET':
+            query = request.GET.get('query', '')
+            if query:
+                patients = User.objects.filter(
+                    groups__name='Paciente'
+                ).filter(
+                    Q(identification__icontains=query) |
+                    Q(first_name__icontains=query) |
+                    Q(last_name__icontains=query)
+                ).values('id', 'first_name', 'last_name', 'identification')
 
-            return JsonResponse({'patients': list(patients)}, safe=False)
-        else:
-            return JsonResponse({'patients': []}, safe=False)
+                return JsonResponse({'patients': list(patients)}, safe=False)
+            else:
+                return JsonResponse({'patients': []}, safe=False)
+    except Exception as e:
+        return JsonResponse({'message': f'Error: {str(e)}'}, status=500)

@@ -88,7 +88,7 @@ class Appointment(models.Model):
         verbose_name_plural = 'Citas'
 
     def __str__(self):
-        return f'{self.patient.first_name} con {self.doctor.first_name}'
+        return f'{self.patient.first_name} {self.patient.last_name} - {self.appointment_date} - {self.appointment_time}'
 
     def clean(self):
         # Obtener la fecha y hora actuales en la zona horaria local
@@ -184,7 +184,8 @@ class Prescription(models.Model):
         help_text="Detalles del medicamento: nombre, gramos, tabletas, etc.")
     instructions = models.TextField(
         help_text="Indicaciones: cómo y cuándo tomar el medicamento.")
-    printed = models.BooleanField(default=False)
+    pdf_file = models.FileField(
+        upload_to='prescriptions/', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Receta Médica'

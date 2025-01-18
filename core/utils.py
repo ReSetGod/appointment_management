@@ -1,6 +1,15 @@
-# utils.py
 import random
 import string
+import os
+from django.template.loader import render_to_string
+from django.conf import settings
+from weasyprint import HTML
+
+import logging
+import os
+from django.conf import settings
+
+from appointment_management import settings
 
 # Funciones para verificar roles de usuario
 
@@ -29,7 +38,8 @@ def is_allowed_to_schedule(user):
     return (
         is_patient(user) or
         is_admin(user) or
-        is_receptionist(user)
+        is_receptionist(user) or
+        is_doctor(user)
     )
 
 
@@ -47,3 +57,35 @@ def get_doctor_name(doctor):
 # Función para obtener el nombre completo del paciente
 def get_patient_name(patient):
     return f"{patient.first_name} {patient.middle_name or ''} {patient.last_name} {patient.maternal_surname or ''}".strip()
+
+
+# Función para la generación de PDFs
+def generate_pdf(template_src, context):
+    try:
+        # Log template path
+        template_path = os.path.join(
+            settings.BASE_DIR, 'core/templates', template_src)
+
+        # Render template with context
+        html = render_to_string(template_src, context)
+
+        # Use absolute file path for base_url
+        static_path = os.path.join(settings.BASE_DIR, 'core', 'static')
+        base_url = f"file:///{static_path.replace(os.sep, '/')}"
+
+        try:
+            # Generate PDF with basic settings (WeasyPrint 52.5 compatible)
+            pdf = HTML(
+                string=html,
+                base_url=base_url
+            ).write_pdf(
+                presentational_hints=True
+            )
+
+            return pdf
+
+        except Exception as pdf_error:
+            raise
+
+    except Exception as e:
+        raise Exception(f"Error generating PDF: {str(e)}")

@@ -1,0 +1,70 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receta Médica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .header p {
+            margin: 0;
+        }
+
+        .line {
+            border-bottom: 1px solid #000;
+            margin: 20px 0;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Receta Médica</h1>
+    </div>
+    <div class="patient-data">
+        <p>Fecha: {{ prescription.issued_at }}</p>
+        <p>Especialidad: {{ prescription.medical_history.appointment.speciality.name }}</p>
+        <p>Paciente: {{ patient_name }}</p>
+        <p>Edad: {{ prescription.medical_history.patient.birth_date|age }}</p>
+        <p>Sexo: {{ prescription.medical_history.patient.genre }}</p>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="section">
+        <p class="section-title">Detalles del Medicamento:</p>
+        <p>{{ prescription.medication_details }}</p>
+    </div>
+
+    <div class="section">
+        <p class="section-title">Indicaciones:</p>
+        <p>{{ prescription.instructions }}</p>
+    </div>
+</body>
+
+</html>

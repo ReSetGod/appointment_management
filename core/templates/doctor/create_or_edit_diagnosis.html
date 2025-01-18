@@ -1,0 +1,80 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>
+        {% if is_editing %}
+            Editar Diagnóstico
+        {% else %}
+            Crear Diagnóstico
+        {% endif %}
+    </h2>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.appointment.label_tag }}
+                {{ form.appointment }}
+                {% if form.appointment.errors %}
+                <div class="text-danger">
+                    {% for error in form.appointment.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.diagnosis.label_tag }}
+                {{ form.diagnosis }}
+                {% if form.diagnosis.errors %}
+                <div class="text-danger">
+                    {% for error in form.diagnosis.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.treatment.label_tag }}
+                {{ form.treatment }}
+                {% if form.treatment.errors %}
+                <div class="text-danger">
+                    {% for error in form.treatment.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.status.label_tag }}
+                {{ form.status }}
+                {% if form.status.errors %}
+                <div class="text-danger">
+                    {% for error in form.status.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            {% if is_editing %}
+                Guardar Cambios
+            {% else %}
+                Crear
+            {% endif %}
+        </button>
+        <a href="{% url 'manage_diagnosis' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/search_appointments.js' %}"></script>
+{% endblock %}

@@ -9,7 +9,7 @@ from core.models import Appointment, Doctor, Speciality, User
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import Group
-from core.utils import is_admin, is_allowed_to_schedule, is_patient, is_receptionist
+from core.utils import is_admin, is_allowed_to_schedule, is_doctor, is_patient, is_receptionist
 
 
 # Renderiza el template que contiene el formulario para agendar un cita
@@ -253,7 +253,8 @@ def cancel_appointment(request, appointment_id):
         if (
             appointment.patient == request.user or
             is_admin(request.user) or
-            is_receptionist(request.user)
+            is_receptionist(request.user) or
+            is_doctor(request.user)
         ):
             appointment.status = 'CANCELLED'
             appointment.save()
@@ -283,7 +284,7 @@ def load_appointment_history(request):
             if is_patient(user):
                 # Si el usuario es paciente, solo puede ver sus propias citas
                 patient = user
-            elif is_admin(user) or is_receptionist(user):
+            elif is_admin(user) or is_receptionist(user) or is_doctor(user):
                 # Si es administrador o secretaria, pueden ver las citas de otros pacientes
                 if not patient_id:
                     return JsonResponse({
@@ -382,3 +383,52 @@ def future_appointments(request):
         return render(request, 'shared/appointments_table.html', {'appointments': appointments})
 
     return render(request, 'shared/next_appointments.html', {'appointments': appointments})
+
+
+@login_required
+def search_attended_appointments(request):
+    try:
+        # Obtener el ID del doctor autenticado.
+        doctor_id = request.user.id
+
+        # Obtener el parámetro de búsqueda (si existe).
+        query = request.GET.get('query', '').strip()
+
+        # Filtrar citas del doctor autenticado con estado ATTENDED.
+        appointments = Appointment.objects.filter(
+            doctor_id=doctor_id,
+            status='ATTENDED'
+        )
+
+        # Si hay un parámetro de búsqueda, aplicar filtros adicionales.
+        if query:
+            appointments = appointments.filter(
+                Q(patient__first_name__icontains=query) |
+                Q(patient__last_name__icontains=query) |
+                Q(patient__identification__icontains=query) |
+                # Si necesitas buscar por hora.
+                Q(appointment_time__icontains=query)
+            )
+
+        # Seleccionar los campos necesarios.
+        appointments = appointments.select_related('patient').values(
+            'id',
+            'patient__first_name',
+            'patient__last_name',
+            'appointment_date',
+            'appointment_time'
+        )
+
+        # Formatear las citas para la respuesta JSON.
+        appointments_data = [
+            {
+                'id': appointment['id'],
+                'text': f"{appointment['patient__first_name']} {appointment['patient__last_name']} - {appointment['appointment_date']} - {appointment['appointment_time'].strftime('%H:%M')}"
+            }
+            for appointment in appointments
+        ]
+
+        return JsonResponse({'appointments': appointments_data}, safe=False)
+
+    except Exception as e:
+        return JsonResponse({'message': f'Error: {str(e)}'}, status=500)

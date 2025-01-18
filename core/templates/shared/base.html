@@ -168,17 +168,31 @@
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="{% url 'schedule_appointment' %}" class="sidebar-link">Citas asignadas</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'appointment_history' %}" class="sidebar-link">Pacientes</a>
+                            <a href="{% url 'schedule_appointment' %}" class="sidebar-link">Mis citas</a>
                         </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'search_doctors' %}" class="sidebar-link">
-                        <i class="fa-solid fa-file-medical"></i>
-                        <span>Diagnósticos y recetas</span>
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#histories-management" aria-expanded="false"
+                        aria-controls="histories-management">
+                        <i class="fa-solid fa-book-medical"></i>
+                        <span>Gestión de historiales</span>
+                    </a>
+                    <ul id="histories-management" class="sidebar-dropdown list-unstyled collapse"
+                        data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="{% url 'appointment_history' %}" class="sidebar-link">Historial de citas</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{% url 'medical_history' %}" class="sidebar-link">Historial médico</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'manage_diagnosis' %}" class="sidebar-link">
+                        <i class="fa-solid fa-file-waveform"></i>
+                        <span>Gestión de diagnósticos</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
