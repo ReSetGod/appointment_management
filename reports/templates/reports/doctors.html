@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            padding: 0;
+            width: 100%;
+        }
+        table { 
+            width: 95%;  
+            margin-left: 0%;  
+            margin-right: 5%;  
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td { 
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        th { 
+            background-color: #f2f2f2;
+        }
+        .header { 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p{
+            font-size: 12px;
+        }
+        /* Adjusted column widths */
+        th:nth-child(1) { width: 4%; }   /* ID */
+        th:nth-child(2) { width: 17%; }  /* Nombre */
+        th:nth-child(3) { width: 16%; }  /* Cédula */
+        th:nth-child(4) { width: 27%; }  /* Email */
+        th:nth-child(5) { width: 13%; }  /* Teléfono */
+        th:nth-child(6) { width: 17%; }  /* Especialidades */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Reporte de Médicos</h1>
+    </div>
+    <p>Fecha: {{ report_date|date:"d/m/Y" }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cédula</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Especialidades</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.first_name }} {{ item.last_name }}</td>
+                <td>{{ item.identification }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.phone_number }}</td>
+                <td>{{ item.specialities__name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

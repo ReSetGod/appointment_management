@@ -62,9 +62,9 @@ def get_patient_name(patient):
 # Función para la generación de PDFs
 def generate_pdf(template_src, context):
     try:
-        # Log template path
-        template_path = os.path.join(
-            settings.BASE_DIR, 'core/templates', template_src)
+        # Add STATIC_ROOT to context
+        context['STATIC_ROOT'] = os.path.join(
+            settings.BASE_DIR, 'core/static').replace('\\', '/')
 
         # Render template with context
         html = render_to_string(template_src, context)
@@ -74,18 +74,15 @@ def generate_pdf(template_src, context):
         base_url = f"file:///{static_path.replace(os.sep, '/')}"
 
         try:
-            # Generate PDF with basic settings (WeasyPrint 52.5 compatible)
             pdf = HTML(
                 string=html,
-                base_url=base_url
+                base_url=base_url,
+                encoding='utf-8'
             ).write_pdf(
                 presentational_hints=True
             )
-
             return pdf
-
         except Exception as pdf_error:
             raise
-
     except Exception as e:
         raise Exception(f"Error generating PDF: {str(e)}")

@@ -1,0 +1,41 @@
+<p><strong>Paciente:</strong> {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</p>
+<p><strong>Identificación:</strong> {{ appointment.patient.identification }}</p>
+<p><strong>Especialidad:</strong> {{ appointment.speciality.name }}</p>
+<p><strong>Fecha:</strong> {{ appointment.appointment_date|date:"d/m/Y" }}</p>
+<p><strong>Horario:</strong> {{ appointment.appointment_time|time:"H:i" }}</p>
+<p><strong>Motivo:</strong> {{ appointment.reason }}</p>
+<p><strong>Estado:</strong> {{ appointment.get_status_display }}</p>
+<p><strong>ID de Cita:</strong> {{ appointment.id }}</p>
+
+<!-- Botón Marcar como Atendida -->
+<button class="btn btn-success" id="markAsAttendedBtn" data-appointment-id="{{ appointment.id }}">
+    <i class="fa-solid fa-check"></i> Marcar como Atendida
+</button>
+
+<script>
+    // Añadir token CSRF a todas las peticiones HTMX
+    document.addEventListener('htmx:configRequest', (event) => {
+        const csrfToken = "{{ csrf_token }}";
+        event.detail.headers['X-CSRFToken'] = csrfToken;
+    });
+
+    // Función para manejar la respuesta después de la cancelación con SweetAlert
+    function handleCancellationResponse(event) {
+        const response = event.detail.xhr.responseText;
+        const data = JSON.parse(response);
+
+        if (data.message) {
+            // Mostrar el mensaje de confirmación con SweetAlert
+            Swal.fire({
+                title: '¡Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#0077B6'
+            }).then(() => {
+                // Recargar la página para actualizar la tabla de citas
+                window.location.reload();
+            });
+        }
+    }
+</script>

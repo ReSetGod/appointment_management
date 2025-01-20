@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 from core.forms import PrescriptionForm
 from django.core.files.base import ContentFile
@@ -25,42 +26,70 @@ def create_prescription(request, medical_history_id):
             form = PrescriptionForm(request.POST)
             if form.is_valid():
                 try:
-                    prescription = form.save(commit=False)
-                    prescription.medical_history = medical_history
-                    prescription.doctor = request.user.doctor
-                    prescription.save()
+                    with transaction.atomic():
+                        # Borrar receta existente si existe una
+                        existing_prescription = medical_history.prescriptions.first()
+                        if existing_prescription:
+                            try:
+                                # Elegir el archivo de receta si esta abierto
+                                if hasattr(existing_prescription.pdf_file, 'file'):
+                                    existing_prescription.pdf_file.file.close()
 
-                    context = {
-                        'prescription': prescription,
-                        'doctor_name': request.user.get_full_name(),
-                        'patient_name': medical_history.patient.get_full_name(),
-                        'issued_at': prescription.issued_at.strftime('%d/%m/%Y'),
-                    }
+                                # Borrar archivo PDF de la receta
+                                if existing_prescription.pdf_file:
+                                    storage = existing_prescription.pdf_file.storage
+                                    if storage.exists(existing_prescription.pdf_file.name):
+                                        storage.delete(
+                                            existing_prescription.pdf_file.name)
 
-                    timestamp = timezone.now().strftime('%Y%m%d_%H%M')
-                    filename = f"prescription_{prescription.id}_{timestamp}.pdf"
+                                # Limpiar campo de archivo PDF
+                                existing_prescription.pdf_file = None
+                                existing_prescription.save()
 
-                    try:
-                        pdf = generate_pdf(
-                            'doctor/prescription_template.html', context)
+                                # Borrar receta
+                                existing_prescription.delete()
 
-                        prescription.pdf_file.save(
-                            filename, ContentFile(pdf), save=True)
+                            except Exception as e:
+                                messages.error(
+                                    request, f'Error al eliminar receta existente: {str(e)}')
+                                raise
 
-                        messages.success(
-                            request, 'Receta creada y guardada exitosamente.')
-                        return redirect('manage_diagnosis')
+                        # Generar nueva receta
+                        prescription = form.save(commit=False)
+                        prescription.medical_history = medical_history
+                        prescription.doctor = request.user.doctor
+                        prescription.save()
 
-                    except Exception as e:
-                        messages.error(
-                            request, f'Error al generar el PDF: {str(e)}')
-                        prescription.delete()
-                        return render(request, 'doctor/create_prescription.html',
-                                      {'form': form, 'history': medical_history})
+                        # Generar archivo PDF
+                        context = {
+                            'prescription': prescription,
+                            'doctor_name': request.user.get_full_name(),
+                            'patient_name': medical_history.patient.get_full_name(),
+                            'issued_at': prescription.issued_at.strftime('%d/%m/%Y'),
+                        }
+
+                        timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
+                        filename = f"prescription_{prescription.id}_{timestamp}.pdf"
+
+                        try:
+                            pdf = generate_pdf(
+                                'doctor/prescription_template.html', context)
+                            prescription.pdf_file.save(
+                                filename, ContentFile(pdf), save=True)
+                            messages.success(
+                                request, 'Receta creada exitosamente.')
+                            return redirect('manage_diagnosis')
+                        except Exception as e:
+                            if prescription.pdf_file:
+                                prescription.pdf_file.delete(save=False)
+                            prescription.delete()
+                            messages.error(
+                                request, f'Error al generar el PDF: {str(e)}')
+                            raise
 
                 except Exception as e:
                     messages.error(
-                        request, f'Error al crear la receta: {str(e)}')
+                        request, f'Error al procesar la receta: {str(e)}')
 
         else:
             form = PrescriptionForm()

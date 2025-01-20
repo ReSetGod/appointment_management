@@ -598,6 +598,21 @@ h3 {
     transform: none; /* Sin animación */
 }
 
+.card-no-hover-reports {
+    background-color: #e7e7e7c5; /* Color de fondo deseado */
+    padding: 1.5rem 1rem;
+    color: #000;
+    border-radius: 5px;
+    cursor: default; /* Evita el efecto del puntero */
+    transition: none; /* Sin transiciones */
+}
+
+.card-no-hover-reports:hover {
+    background-color: #e7e7e7c5; /* Mantener el mismo color */
+    color: #000; /* Mantener el color del texto */
+    transform: none; /* Sin transformación */
+}
+
 
 .gridjs-tr.table-active > * {
     background: transparent !important;
@@ -612,4 +627,15 @@ h3 {
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+.fc .fc-toolbar-title,
+.fc .fc-daygrid-day-number,
+.fc .fc-event-title,
+.fc .fc-event-time {
+    color: #003153; /* Custom text color */
+}
+
+.fc .fc-col-header-cell-cushion {
+    color: #0a2240; /* Custom color for day headers */
 }

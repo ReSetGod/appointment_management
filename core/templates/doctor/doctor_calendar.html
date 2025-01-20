@@ -1,0 +1,17 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Calendario de Citas</h2>
+    <br> <br>
+    <div id="calendar"></div>
+
+    <!-- Incluir el modal compartido -->
+    {% include 'doctor/modals/modal_calendar_details.html' %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/doctor_calendar.js' %}"></script>
+{% endblock %}

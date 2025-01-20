@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -235,9 +236,15 @@ def appointment_details(request, appointment_id):
 
     # Verificar si la solicitud incluye un parámetro para diferenciar entre los detalles del historial y las próximas citas
     is_history = request.GET.get('is_history', 'false').lower() == 'true'
+    is_calendar = request.GET.get('is_calendar', 'false').lower() == 'true'
 
-    # Seleccionar el template adecuado
-    template = 'shared/appointment_history_details.html' if is_history else 'shared/appointment_details.html'
+    # Seleccionar el template adecuado según los parámetros
+    if is_history:
+        template = 'shared/appointment_history_details.html'
+    elif is_calendar:
+        template = 'doctor/calendar_appointment_details.html'
+    else:
+        template = 'shared/appointment_details.html'
 
     # Renderizar los detalles en el template correspondiente
     return render(request, template, {'appointment': appointment})
@@ -432,3 +439,79 @@ def search_attended_appointments(request):
 
     except Exception as e:
         return JsonResponse({'message': f'Error: {str(e)}'}, status=500)
+
+
+# Vista para obtener las citas futuras del doctor
+@login_required
+def doctor_appointments_calendar(request):
+    try:
+        user = request.user
+        if not is_doctor(user):
+            return JsonResponse({"error": "No autorizado"}, status=403)
+
+        current_time = timezone.localtime()
+
+        # Base query with future appointments filter
+        appointments = Appointment.objects.filter(
+            doctor=user,
+            status__in=['PENDING', 'CONFIRMED']
+        ).filter(
+            Q(appointment_date__gt=current_time.date()) |
+            Q(appointment_date=current_time.date(),
+              appointment_time__gt=current_time.time())
+        )
+
+        # Additional date range filter from calendar
+        start = request.GET.get('start')
+        end = request.GET.get('end')
+        if start and end:
+            start_date = timezone.datetime.strptime(
+                start[:10], '%Y-%m-%d').date()
+            end_date = timezone.datetime.strptime(end[:10], '%Y-%m-%d').date()
+            appointments = appointments.filter(
+                appointment_date__range=[start_date, end_date])
+
+        appointments = appointments.select_related(
+            'patient').order_by('appointment_date', 'appointment_time')
+
+        events = []
+        for appointment in appointments:
+            start_datetime = timezone.datetime.combine(
+                appointment.appointment_date,
+                appointment.appointment_time
+            )
+            end_datetime = start_datetime + timedelta(minutes=30)
+
+            event = {
+                'id': appointment.id,
+                'title': f"Cita con {appointment.patient.get_full_name()}",
+                'start': start_datetime.strftime('%Y-%m-%dT%H:%M:%S'),
+                'end': end_datetime.strftime('%Y-%m-%dT%H:%M:%S'),
+                'allDay': False,
+                'backgroundColor': '#0077B6',
+                'borderColor': '#0077B6'
+            }
+            events.append(event)
+
+        return JsonResponse(events, safe=False)
+
+    except Exception as e:
+        print(f"Error in calendar view: {str(e)}")
+        return JsonResponse([], safe=False)
+
+
+# Vista para marcar una cita como atendida
+@login_required
+def mark_as_attended(request, appointment_id):
+    print(
+        f"Mark as attended request: Method={request.method}, ID={appointment_id}")
+    if request.method == 'POST':
+        try:
+            appointment = Appointment.objects.get(id=appointment_id)
+            print(f"Found appointment: {appointment.id}")
+            appointment.status = 'ATTENDED'  # Cambia el estado de la cita
+            appointment.save()
+            return JsonResponse({'message': 'La cita fue marcada como atendida con éxito.'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'message': 'La cita no existe.'}, status=404)
+    return JsonResponse({'message': 'Método no permitido.'}, status=405)

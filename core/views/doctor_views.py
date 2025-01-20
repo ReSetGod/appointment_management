@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 from core.forms import DoctorForm
 from core.models import Doctor
-from core.utils import generate_password, get_doctor_name, is_admin, is_patient, is_receptionist
+from core.utils import generate_password, get_doctor_name, is_admin, is_doctor, is_patient, is_receptionist
 from django.contrib.auth.models import Group
 
 
@@ -153,3 +153,10 @@ def get_doctors_by_specialty(request, specialty_id):
 @user_passes_test(is_patient)
 def search_doctors(request):
     return render(request, 'patient/search_doctors.html')
+
+
+# Vista para renderizar la página de calendario de doctores
+@login_required
+@user_passes_test(is_doctor)
+def doctor_calendar(request):
+    return render(request, 'doctor/doctor_calendar.html')

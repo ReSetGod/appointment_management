@@ -1,0 +1,68 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page {
+            size: letter portrait;
+            margin: 2cm;
+        }
+        body { 
+            font-family: DejaVu Sans, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        table { 
+            width: 98%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td { 
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            word-wrap: break-word;
+            font-size: 11px;
+        }
+        .header { 
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        p{
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Reporte de Citas</h1>
+    </div>
+    <p>Fecha: {{ report_date|date:"d/m/Y" }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Paciente</th>
+                <th>Doctor</th>
+                <th>Especialidad</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.appointment_date|date:"d/m/Y" }} {{ item.appointment_time|time:"H:i" }}</td>
+                <td>{{ item.patient__first_name }} {{ item.patient__last_name }}</td>
+                <td>{{ item.doctor__first_name }} {{ item.doctor__last_name }}</td>
+                <td>{{ item.speciality__name }}</td>
+                <td>{{ item.status|status_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

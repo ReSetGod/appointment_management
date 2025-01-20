@@ -31,6 +31,7 @@ urlpatterns = [
     # Rutas para Doctores
     path('doctor/manage_diagnosis/',
          views.manage_diagnosis, name='manage_diagnosis'),
+    path('doctor/calendar/', views.doctor_calendar, name='doctor_calendar'),
 
     # Configuración
     path('shared/configuration/', views.configuration, name='configuration'),
@@ -67,6 +68,10 @@ urlpatterns = [
          name='load_medical_histories'),
     path('search_attended_appointments/', views.search_attended_appointments,
          name='search_attended_appointments'),
+    path('doctor/mark_as_attended/<int:appointment_id>/',
+         views.mark_as_attended, name='mark_as_attended'),
+    path('doctor/appointments/', views.doctor_appointments_calendar,
+         name='doctor_appointments_calendar'),
 
 
     # Eliminar usuarios

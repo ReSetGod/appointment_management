@@ -1,3 +1,4 @@
+{% load static %}
 {% load custom_filters %}
 <!DOCTYPE html>
 <html lang="es">
@@ -14,7 +15,9 @@
         }
 
         .header {
+            clear: both;
             text-align: center;
+            margin-top: 150px;
             margin-bottom: 20px;
         }
 
@@ -27,8 +30,14 @@
             margin: 0;
         }
 
+        .patient-data {
+            text-align: left;
+            margin: 20px auto;
+            width: 100%;
+        }
+
         .line {
-            border-bottom: 1px solid #000;
+            border-bottom: 2px solid #003153;
             margin: 20px 0;
         }
 
@@ -39,10 +48,42 @@
         .section-title {
             font-weight: bold;
         }
+
+        .logo {
+            float: right;
+            width: 300px;
+            height: auto;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .signature-section {
+            width: 250px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #000;
+            margin: 20px auto;
+            width: 200px;
+        }
+
+        .doctor-info {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .prescriptor {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #000;
+        }
     </style>
 </head>
 
 <body>
+    <img src="file:///{{ STATIC_ROOT }}/images/Logo-prescription.png" alt="Logo" class="logo">
     <div class="header">
         <h1>Receta Médica</h1>
     </div>
@@ -51,7 +92,7 @@
         <p>Especialidad: {{ prescription.medical_history.appointment.speciality.name }}</p>
         <p>Paciente: {{ patient_name }}</p>
         <p>Edad: {{ prescription.medical_history.patient.birth_date|age }}</p>
-        <p>Sexo: {{ prescription.medical_history.patient.genre }}</p>
+        <p>Sexo: {{ prescription.medical_history.patient.genre|genre_display }}</p>
     </div>
 
     <div class="line"></div>
@@ -61,9 +102,22 @@
         <p>{{ prescription.medication_details }}</p>
     </div>
 
+    <div class="line"></div>
+
     <div class="section">
         <p class="section-title">Indicaciones:</p>
         <p>{{ prescription.instructions }}</p>
+    </div>
+    <br>
+    <br>
+
+    <div class="signature-section">
+        <div class="signature-line"></div>
+        <div class="doctor-info">
+            <p>{{ prescription.doctor|doctor_title }} {{ prescription.doctor.get_full_name }}</p>
+            <p>C.I {{ prescription.doctor.identification }}</p>
+            <p class="prescriptor">PRESCRIPTOR</p>
+        </div>
     </div>
 </body>
 
