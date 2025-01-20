@@ -13,10 +13,10 @@ class PDFReportGenerator(ReportGenerator):
         }
 
         try:
-            # Render template to HTML
+            # Renderizar el template con los datos
             html = render_to_string(template, context)
 
-            # Generate PDF with basic compatibility settings
+            # Generar el PDF
             pdf = HTML(
                 string=html,
                 encoding='utf-8'

@@ -83,18 +83,18 @@ class DocxReportGenerator(ReportGenerator):
         report_type = template.split('/')[-1].split('.')[0]
         headers = self.get_headers(report_type)
 
-        # Add title
+        # Añadir titulo
         doc.add_heading(self.get_report_title(report_type), 0)
 
-        # Create table
+        # Crear tabla
         table = doc.add_table(rows=1, cols=len(headers))
         table.style = 'Table Grid'
 
-        # Add headers
+        # Añádir encabezados
         for idx, (_, header) in enumerate(headers):
             table.cell(0, idx).text = header
 
-        # Add data rows
+        # Añadir los datos según cada fila
         for item in data:
             formatted_item = self.format_data(item, report_type)
             row_cells = table.add_row().cells

@@ -48,7 +48,7 @@ class ExcelReportGenerator(ReportGenerator):
         report_type = template.split('/')[-1].split('.')[0]
         headers = self.get_headers(report_type)
 
-        # Format genre before renaming columns
+        # Formatear el género antes de renombrar las columnas
         if 'genre' in df.columns:
             genre_map = {
                 'F': 'Femenino',
@@ -56,7 +56,7 @@ class ExcelReportGenerator(ReportGenerator):
             }
             df['genre'] = df['genre'].map(genre_map)
 
-        # Format status before renaming columns
+        # Formatear estatus antes de renombrar las columnas
         if 'status' in df.columns:
             status_map = {
                 'PENDING': 'Pendiente',
@@ -67,7 +67,7 @@ class ExcelReportGenerator(ReportGenerator):
             }
             df['status'] = df['status'].map(status_map)
 
-        # Rename columns
+        # Renombrar las columnas
         if headers:
             df = df.rename(columns=headers)
 

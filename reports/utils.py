@@ -1,7 +1,6 @@
 from django.utils import timezone
 from enum import Enum
 
-from core.models import Appointment
 from .generators.pdf_generator import PDFReportGenerator
 from .generators.excel_generator import ExcelReportGenerator
 from .generators.docx_generator import DocxReportGenerator

@@ -9,6 +9,7 @@ from django.contrib import messages
 
 
 # Vista para renderizar el template de generar reporte
+@user_passes_test(is_admin)
 @login_required
 def generate_report_form(request):
     return render(request, 'reports/generate_report.html')
@@ -20,12 +21,12 @@ def generate_report_file(request):
     report_type = request.GET.get('report_type')
     report_format = request.GET.get('format', 'pdf')
 
-    # Validate report type
+    # Validar tipo de reporte
     if not report_type:
         messages.error(request, 'Por favor seleccione un tipo de reporte.')
         return redirect('reports:generate_report_form')
 
-    # Continue with report generation
+    # Continuar con la generación del reporte
     if report_type == 'appointments':
         return appointment_report(request)
     elif report_type == 'patients':
