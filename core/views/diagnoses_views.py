@@ -6,12 +6,12 @@ from django.contrib import messages
 
 from core.forms import MedicalHistoryForm
 from core.models import MedicalHistory, User
-from core.utils import is_admin, is_allowed_to_schedule, is_doctor, is_patient, is_receptionist
+from core.utils import is_allowed_to_review_histories, is_doctor, is_patient, is_receptionist
 from django.contrib.auth.models import Group
 
 
 @login_required
-@user_passes_test(is_allowed_to_schedule)
+@user_passes_test(is_allowed_to_review_histories)
 def medical_history(request):
     try:
         group_patient = Group.objects.get(name='Paciente')
@@ -38,7 +38,7 @@ def diagnostics_history(request):
                 ).select_related('doctor')
 
             # Caso: Usuario es Administrador, Secretaria o Doctor
-            elif is_admin(user) or is_receptionist(user) or is_doctor(user):
+            elif is_receptionist(user) or is_doctor(user):
                 if not patient_id:
                     return JsonResponse({
                         "message": "Success",

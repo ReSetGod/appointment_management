@@ -59,12 +59,28 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 
     document.body.addEventListener('click', function (event) {
-        if (event.target.id === 'markAsAttendedBtn') {
+        if (event.target.id === 'markAsAttendedBtn' || 
+            event.target.id === 'markAsNoShowBtn' || 
+            event.target.id === 'cancelAppointmentBtn') {
+            
             const button = event.target;
             const appointmentId = button.getAttribute('data-appointment-id');
             const csrftoken = getCookie('csrftoken');
-
-            fetch(`/core/doctor/mark_as_attended/${appointmentId}/`, {
+            
+            let endpoint;
+            switch(event.target.id) {
+                case 'markAsAttendedBtn':
+                    endpoint = `/core/doctor/mark_as_attended/${appointmentId}/`;
+                    break;
+                case 'markAsNoShowBtn':
+                    endpoint = `/core/doctor/mark_as_no_show/${appointmentId}/`; 
+                    break;
+                case 'cancelAppointmentBtn':
+                    endpoint = `/core/doctor/cancel_appointment/${appointmentId}/`; 
+                    break;
+            }
+        
+            fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken,
@@ -79,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 if (data.message) {
-                    // Close modal first and restore focus
                     const modal = bootstrap.Modal.getInstance(document.getElementById('calendarDetailsModal'));
                     const wrapper = document.querySelector('.wrapper');
                     if (wrapper) {
@@ -98,13 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             });
                         }, 150);
                     }
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: data.message || 'Error al procesar la solicitud',
-                        icon: 'error',
-                        confirmButtonColor: '#0077B6'
-                    });
                 }
             })
             .catch(error => {

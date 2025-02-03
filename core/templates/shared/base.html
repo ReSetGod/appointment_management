@@ -62,13 +62,15 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'search_doctors_patient' %}" class="sidebar-link">
+                    <a href="{% url 'search_doctors_patient' %}" class="sidebar-link"
+                        title="Ver especialidades y médicos" aria-label="Ver especialidades y médicos">
                         <i class="fa-solid fa-user-doctor"></i>
                         <span>Especialidades y médicos</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'configuration' %}" class="sidebar-link">
+                    <a href="{% url 'configuration' %}" class="sidebar-link" title="Configuración de cuenta"
+                        aria-label="Ir a configuración de cuenta">
                         <i class="lni lni-cog"></i>
                         <span>Configuración de cuenta</span>
                     </a>
@@ -76,29 +78,6 @@
                 {% endif %}
                 {% if is_administrador %}
                 <!-- Opciones específicas del administrador -->
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#appointment-management" aria-expanded="false"
-                        aria-controls="appointment-management">
-                        <i class="fa-regular fa-calendar-check"></i>
-                        <span>Gestión de citas</span>
-                    </a>
-                    <ul id="appointment-management" class="sidebar-dropdown list-unstyled collapse"
-                        data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="{% url 'schedule_appointment' %}" class="sidebar-link">Agendar cita</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'next_appointments' %}" class="sidebar-link">Próximas citas</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'appointment_history' %}" class="sidebar-link">Historial de citas</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'medical_history' %}" class="sidebar-link">Historial médico</a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#hospital-management" aria-expanded="false" aria-controls="hospital-management">
@@ -116,13 +95,15 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'reports:generate_report_form' %}" class="sidebar-link">
+                    <a href="{% url 'reports:generate_report_form' %}" class="sidebar-link"
+                        title="Generación de reportes" aria-label="Ir a generación de reportes">
                         <i class="fa-solid fa-file-export"></i>
                         <span>Generación de Reportes</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'configuration' %}" class="sidebar-link">
+                    <a href="{% url 'configuration' %}" class="sidebar-link" title="Configuración de cuenta"
+                        aria-label="Ir a configuración de cuenta">
                         <i class="lni lni-cog"></i>
                         <span>Configuración de cuenta</span>
                     </a>
@@ -131,7 +112,8 @@
                 {% if is_secretaria %}
                 <!-- Opciones específicas de secretaria -->
                 <li class="sidebar-item">
-                    <a href="{% url 'manage_patients' %}" class="sidebar-link">
+                    <a href="{% url 'manage_patients' %}" class="sidebar-link" title="Gestión de pacientes"
+                        aria-label="Gestión de pacientes">
                         <i class="fa-solid fa-hospital-user"></i>
                         <span>Gestión de pacientes</span>
                     </a>
@@ -160,7 +142,8 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'configuration' %}" class="sidebar-link">
+                    <a href="{% url 'configuration' %}" class="sidebar-link" title="Configuración de cuenta"
+                        aria-label="Ir a configuración de cuenta">
                         <i class="lni lni-cog"></i>
                         <span>Configuración de cuenta</span>
                     </a>
@@ -198,13 +181,39 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'manage_diagnosis' %}" class="sidebar-link">
+                    <a href="{% url 'manage_diagnosis' %}" class="sidebar-link"
+                        title="Gestión de diagnósticos y recetas" aria-label="Gestionar diagnósticos">
                         <i class="fa-solid fa-file-waveform"></i>
                         <span>Gestión de diagnósticos</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'configuration' %}" class="sidebar-link">
+                    <a href="{% url 'configuration' %}" class="sidebar-link" title="Configuración de cuenta"
+                        aria-label="Ir a configuración de cuenta">
+                        <i class="lni lni-cog"></i>
+                        <span>Configuración de cuenta</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% if is_manager %}
+                <!-- Opciones específicas del gerente -->
+                <li class="sidebar-item">
+                    <a href="{% url 'reports:generate_report_form' %}" class="sidebar-link"
+                        title="Generación de reportes" aria-label="Ir a generación de reportes">
+                        <i class="fa-solid fa-file-export"></i>
+                        <span>Generación de Reportes</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'reports:dashboard' %}" class="sidebar-link" title="Dashboard de estadísticas"
+                        aria-label="Ir a estadísticas">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Estadísticas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'configuration' %}" class="sidebar-link" title="Configuración de cuenta"
+                        aria-label="Ir a configuración de cuenta">
                         <i class="lni lni-cog"></i>
                         <span>Configuración de cuenta</span>
                     </a>
@@ -212,7 +221,8 @@
                 {% endif %}
             </ul>
             <div class="sidebar-footer">
-                <a href="{% url 'account_logout' %}" class="sidebar-link">
+                <a href="{% url 'account_logout' %}" class="sidebar-link" title="Cerrar sesión"
+                    aria-label="Cerrar sesión">
                     <i class="lni lni-exit"></i>
                     <span>Cerrar sesión</span>
                 </a>
@@ -222,6 +232,33 @@
             <div class="dashboard-navbar">
                 <div class="navbar-content">
                     <ul class="main-nav">
+                        <li class="notifications-link">
+                            <div class="notifications-toggle">
+                                <i class="fa-solid fa-bell fa-lg" style="color: #ffffff;" title="Notificaciones"
+                                    aria-label="Notificaciones">
+
+                                </i>
+                                {% if unread_notifications %}
+                                <span class="notification-badge">{{ unread_notifications|length }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="notifications-dropdown">
+                                {% if notifications %}
+                                {% for notification in notifications %}
+                                <div class="notification-item {% if not notification.is_read %}unread{% endif %}">
+                                    <a href="{% url 'rate_appointment' notification.appointment.id %}"
+                                        class="notification-link">
+                                        {{ notification.message }}
+                                        <small class="notification-date">{{ notification.created_at|timesince }}
+                                            ago</small>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="notification-item">No hay notificaciones pendientes</div>
+                                {% endif %}
+                            </div>
+                        </li>
                         <li class="user-link">
                             <div class="user-info">
                                 <span class="user-name">{{ request.user.first_name }}</span>
@@ -245,10 +282,11 @@
     </div>
     <!-- BootStrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <!-- JS Menú -->
     <script src="{% static 'js/slide_bar.js' %}"></script>
+    <!-- JS notificaciones -->
+    <script src="{% static 'js/notifications.js' %}"></script>
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- HTMX -->
@@ -257,8 +295,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
     <!-- Tom Select -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0/dist/js/tom-select.complete.min.js"></script>
-    <!-- Full Calendar -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
 
     <!-- Alerta de mensajes -->

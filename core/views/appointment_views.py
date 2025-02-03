@@ -6,11 +6,12 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib import messages
 
-from core.models import Appointment, Doctor, Speciality, User
+from core.forms import RatingForm
+from core.models import Appointment, Doctor, Notification, Rating, Speciality, User
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import Group
-from core.utils import is_admin, is_allowed_to_schedule, is_doctor, is_patient, is_receptionist
+from core.utils import is_allowed_to_review_histories, is_allowed_to_schedule, is_doctor, is_patient, is_receptionist
 
 
 # Renderiza el template que contiene el formulario para agendar un cita
@@ -43,7 +44,7 @@ def book_appointment(request):
         # Validar los roles del usuario
         if is_patient(user):
             patient = user
-        elif is_admin(user) or is_receptionist(user):
+        elif is_receptionist(user):
             patient_id = request.POST.get('patient_id')
             if not patient_id:
                 messages.error(request, 'Debes seleccionar un paciente.')
@@ -136,7 +137,7 @@ def edit_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
     # Verificar permisos de edición
-    if not (is_admin(request.user) or is_receptionist(request.user) or
+    if not (is_receptionist(request.user) or
             (is_patient(request.user) and appointment.patient == request.user)):
         messages.error(request, 'No tienes permiso para editar esta cita.')
         return redirect('future_appointments')
@@ -218,7 +219,7 @@ def next_appointments(request):
 
 
 @login_required
-@user_passes_test(is_allowed_to_schedule)
+@user_passes_test(is_allowed_to_review_histories)
 def appointment_history(request):
     try:
         group_patient = Group.objects.get(name='Paciente')
@@ -259,7 +260,6 @@ def cancel_appointment(request, appointment_id):
         # Verificar si el usuario tiene permiso para cancelar la cita
         if (
             appointment.patient == request.user or
-            is_admin(request.user) or
             is_receptionist(request.user) or
             is_doctor(request.user)
         ):
@@ -291,7 +291,7 @@ def load_appointment_history(request):
             if is_patient(user):
                 # Si el usuario es paciente, solo puede ver sus propias citas
                 patient = user
-            elif is_admin(user) or is_receptionist(user) or is_doctor(user):
+            elif is_receptionist(user) or is_doctor(user):
                 # Si es administrador o secretaria, pueden ver las citas de otros pacientes
                 if not patient_id:
                     return JsonResponse({
@@ -351,8 +351,8 @@ def future_appointments(request):
         patient_id = request.GET.get('patient_id')
         current_time = timezone.localtime()
 
-        if is_admin(user) or is_receptionist(user):
-            # Administradores o secretarias con un paciente seleccionado
+        if is_receptionist(user):
+            # Secretarias con un paciente seleccionado
             if patient_id:
                 appointments = Appointment.objects.filter(
                     patient_id=patient_id,
@@ -503,15 +503,77 @@ def doctor_appointments_calendar(request):
 # Vista para marcar una cita como atendida
 @login_required
 def mark_as_attended(request, appointment_id):
-    print(
-        f"Mark as attended request: Method={request.method}, ID={appointment_id}")
     if request.method == 'POST':
         try:
             appointment = Appointment.objects.get(id=appointment_id)
-            print(f"Found appointment: {appointment.id}")
-            appointment.status = 'ATTENDED'  # Cambia el estado de la cita
+            appointment.status = 'ATTENDED'
             appointment.save()
+
+            # Crear una notificación para el paciente
+            Notification.objects.create(
+                patient=appointment.patient,
+                appointment=appointment,
+                message=f"Tu cita con {appointment.doctor.get_full_name()} ha sido atendida. Por favor, califícala."
+            )
+
             return JsonResponse({'message': 'La cita fue marcada como atendida con éxito.'})
         except Appointment.DoesNotExist:
             return JsonResponse({'message': 'La cita no existe.'}, status=404)
     return JsonResponse({'message': 'Método no permitido.'}, status=405)
+
+
+@login_required
+@user_passes_test(is_doctor)
+def mark_as_no_show(request, appointment_id):
+    if request.method == 'POST':
+        try:
+            appointment = Appointment.objects.get(id=appointment_id)
+            appointment.status = 'NO_SHOW'
+            appointment.save()
+            return JsonResponse({'message': 'Se ha registrado la inasistencia del paciente.'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'message': 'La cita no existe.'}, status=404)
+    return JsonResponse({'message': 'Método no permitido.'}, status=405)
+
+
+@login_required
+@user_passes_test(is_doctor)
+def cancel_appointment_doctor(request, appointment_id):
+    if request.method == 'POST':
+        try:
+            appointment = Appointment.objects.get(id=appointment_id)
+            appointment.status = 'CANCELLED'
+            appointment.save()
+            return JsonResponse({'message': 'La cita ha sido cancelada exitosamente.'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'message': 'La cita no existe.'}, status=404)
+    return JsonResponse({'message': 'Método no permitido.'}, status=405)
+
+
+@login_required
+def rate_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    notification = get_object_or_404(
+        Notification, appointment=appointment, patient=request.user)
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = Rating.objects.create(
+                appointment=appointment,
+                patient=request.user,
+                doctor=appointment.doctor,
+                score=form.cleaned_data['score'],
+                comment=form.cleaned_data['comment']
+            )
+            notification.is_read = True
+            notification.save()
+            messages.success(request, 'Gracias por calificar tu cita.')
+            return redirect('home')
+    else:
+        form = RatingForm()
+
+    return render(request, 'patient/rate_appointment.html', {
+        'appointment': appointment,
+        'form': form
+    })

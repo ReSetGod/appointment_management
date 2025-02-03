@@ -6,7 +6,7 @@ from .speciality_views import (
     manage_specialities, create_or_edit_speciality, delete_speciality, load_specialities, get_specialities, speciality_detail
 )
 from .appointment_views import (
-    schedule_appointment, book_appointment, edit_appointment_view, edit_appointment, cancel_appointment, appointment_details, future_appointments, load_appointment_history, appointment_history, next_appointments, search_attended_appointments, doctor_appointments_calendar, mark_as_attended
+    schedule_appointment, book_appointment, edit_appointment_view, edit_appointment, cancel_appointment, appointment_details, future_appointments, load_appointment_history, appointment_history, next_appointments, search_attended_appointments, doctor_appointments_calendar, mark_as_attended, rate_appointment, mark_as_no_show, cancel_appointment_doctor
 )
 from .shared_views import home, configuration, get_available_times, search_patients
 

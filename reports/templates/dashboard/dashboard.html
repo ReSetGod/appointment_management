@@ -1,0 +1,115 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2 class="my-3">Estadísticas hospitalarias</h2>
+    <div class="container">
+        <div class="chart-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Concurrencia de Pacientes</h2>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary export-img" data-chart="patientConcurrenceChart">
+                        <i class="fas fa-image"></i> PNG
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary export-pdf" data-chart="patientConcurrenceChart">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group mb-3" role="group" aria-label="Filtros de tiempo">
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter active" data-time-frame="30">30
+                    días</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="90">3
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="180">6
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="365">1
+                    año</button>
+            </div>
+            <canvas id="patientConcurrenceChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Especialidades Más Solicitadas</h2>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary export-img" data-chart="specialitiesChart">
+                        <i class="fas fa-image"></i> PNG
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary export-pdf" data-chart="specialitiesChart">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group mb-3" role="group" aria-label="Filtros de tiempo">
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter active" data-time-frame="30">30
+                    días</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="90">3
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="180">6
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="365">1
+                    año</button>
+            </div>
+            <canvas id="specialitiesChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Enfermedades Más Recurrentes</h2>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary export-img" data-chart="diseasesChart">
+                        <i class="fas fa-image"></i> PNG
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary export-pdf" data-chart="diseasesChart">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group mb-3" role="group" aria-label="Filtros de tiempo">
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter active" data-time-frame="30">30
+                    días</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="90">3
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="180">6
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="365">1
+                    año</button>
+            </div>
+            <canvas id="diseasesChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Calificación Promedio por Doctor</h2>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary export-img" data-chart="doctorRatingsChart">
+                        <i class="fas fa-image"></i> PNG
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary export-pdf" data-chart="doctorRatingsChart">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group mb-3" role="group" aria-label="Filtros de tiempo">
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter active" data-time-frame="30">30
+                    días</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="90">3
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="180">6
+                    meses</button>
+                <button type="button" class="btn btn-sm btn-outline-primary time-filter" data-time-frame="365">1
+                    año</button>
+            </div>
+            <canvas id="doctorRatingsChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

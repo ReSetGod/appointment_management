@@ -2,14 +2,14 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from core.models import Appointment, User, Doctor
-from core.utils import is_admin
+from core.utils import is_allowed_to_create_reports
 from reports.utils import generate_report, ReportFormat, ReportType, get_date_range
 from django.utils import timezone
 from django.contrib import messages
 
 
 # Vista para renderizar el template de generar reporte
-@user_passes_test(is_admin)
+@user_passes_test(is_allowed_to_create_reports)
 @login_required
 def generate_report_form(request):
     return render(request, 'reports/generate_report.html')

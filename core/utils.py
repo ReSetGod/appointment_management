@@ -5,7 +5,6 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from weasyprint import HTML
 
-import logging
 import os
 from django.conf import settings
 
@@ -37,9 +36,22 @@ def is_manager(user):
 def is_allowed_to_schedule(user):
     return (
         is_patient(user) or
-        is_admin(user) or
+        is_receptionist(user)
+    )
+
+
+def is_allowed_to_review_histories(user):
+    return (
+        is_patient(user) or
         is_receptionist(user) or
         is_doctor(user)
+    )
+
+
+def is_allowed_to_create_reports(user):
+    return (
+        is_admin(user) or
+        is_manager(user)
     )
 
 

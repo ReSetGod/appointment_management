@@ -7,10 +7,22 @@
 <p><strong>Estado:</strong> {{ appointment.get_status_display }}</p>
 <p><strong>ID de Cita:</strong> {{ appointment.id }}</p>
 
-<!-- Botón Marcar como Atendida -->
-<button class="btn btn-success" id="markAsAttendedBtn" data-appointment-id="{{ appointment.id }}">
-    <i class="fa-solid fa-check"></i> Marcar como Atendida
-</button>
+<div class="d-flex gap-2 mt-3">
+    <!-- Botón Marcar como Atendida -->
+    <button class="btn btn-success" id="markAsAttendedBtn" data-appointment-id="{{ appointment.id }}">
+        <i class="fa-solid fa-check"></i> Marcar como Atendida
+    </button>
+    
+    <!-- Botón Marcar como No Asistió -->
+    <button class="btn btn-warning" id="markAsNoShowBtn" data-appointment-id="{{ appointment.id }}">
+        <i class="fa-solid fa-user-xmark"></i> No Asistió
+    </button>
+    
+    <!-- Botón Cancelar Cita -->
+    <button class="btn btn-danger" id="cancelAppointmentBtn" data-appointment-id="{{ appointment.id }}">
+        <i class="fa-solid fa-ban"></i> Cancelar Cita
+    </button>
+</div>
 
 <script>
     // Añadir token CSRF a todas las peticiones HTMX

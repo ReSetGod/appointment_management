@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+
+from core.forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import Speciality, Doctor, User, Appointment, MedicalHistory, Prescription
 
 
 class CustomUserAdmin(BaseUserAdmin):
+    form = CustomUserChangeForm
+    add_form = CustomUserCreationForm
+
     list_display = (
         'username', 'email', 'first_name', 'middle_name', 'last_name', 'maternal_surname',
         'identification', 'address', 'city', 'phone_number', 'birth_date', 'genre', 'is_staff', 'get_groups'
@@ -16,6 +21,39 @@ class CustomUserAdmin(BaseUserAdmin):
     def get_groups(self, obj):
         return ", ".join([group.name for group in obj.groups.all()])
     get_groups.short_description = 'Grupos'
+
+    fieldsets = (
+        ('Información personal', {
+            'fields': ('username', 'email', 'password', 'first_name', 'middle_name', 'last_name', 'maternal_surname', 'identification', 'birth_date', 'genre')
+        }),
+        ('Información de contacto', {
+            'fields': ('address', 'city', 'phone_number')
+        }),
+        ('Permisos', {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+        }),
+        ('Fechas importantes', {
+            'fields': ('last_login', 'date_joined')
+        }),
+    )
+
+    add_fieldsets = (
+        ('Información personal', {
+            'classes': ('wide',),
+            'fields': (
+                'username', 'email', 'password1', 'password2',
+                ('first_name', 'middle_name'), ('last_name', 'maternal_surname'),
+                'identification', 'birth_date',
+                'genre',
+            )
+        }),
+        ('Información de contacto', {
+            'fields': ('address', 'city', 'phone_number')
+        }),
+        ('Permisos', {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
+        }),
+    )
 
 
 @admin.register(Appointment)

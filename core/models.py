@@ -195,13 +195,32 @@ class Prescription(models.Model):
         return f'Receta de {self.doctor.username} para {self.patient.username} - {self.issued_at.strftime("%Y-%m-%d")}'
 
 
-class ActionLog(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True)
-    timestamp = models.DateTimeField(default=timezone.now)
-    module = models.CharField(max_length=100)
-    functionality = models.CharField(max_length=100)
-    action = models.CharField(max_length=200)
+class Rating(models.Model):
+    appointment = models.OneToOneField(
+        Appointment, on_delete=models.CASCADE, related_name='rating')
+    patient = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='ratings_given')
+    doctor = models.ForeignKey(
+        Doctor, on_delete=models.CASCADE, related_name='ratings_received')
+    score = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user} - {self.module} - {self.action} - {self.timestamp}'
+        return f'Rating for appointment {self.appointment.id} - {self.score}/5'
+
+
+class Notification(models.Model):
+    patient = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='notifications')
+    appointment = models.ForeignKey(
+        Appointment, on_delete=models.CASCADE, related_name='notifications')
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Notification for {self.patient.username} - {self.created_at}'

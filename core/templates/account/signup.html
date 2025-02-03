@@ -8,16 +8,16 @@
     <title>CitaYa</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--BootStrap-->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <!--FontAwesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!--===============================================================================================-->
+    <!--Iconic-->
     <link rel="stylesheet" type="text/css" href="{% static 'iconic/css/material-design-iconic-font.min.css' %}">
-    <!--===============================================================================================-->
+    <!--CSS-->
     <link rel="stylesheet" type="text/css" href="{% static 'styles/util.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/sign_up.css' %}">
-    <!--===============================================================================================-->
 </head>
 
 <body>
@@ -29,11 +29,30 @@
                         <i class="fas fa-arrow-left"></i> Regresar
                     </a>
                 </div>
+                <!-- Mostrar mensajes de Django con estilo de alertas de Bootstrap -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <form class="login100-form validate-form" method="POST" action="{% url 'account_signup' %}">
                     {% csrf_token %}
                     <span class="login100-form-title p-b-49">
                         Registrarse
                     </span>
+
+                    <!-- Errores generales -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
 
                     <div class="row">
                         <div class="column">
@@ -42,6 +61,15 @@
                                     {{ form.first_name.label }}</label>
                                 {{ form.first_name }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo first_name -->
+                                {% if form.first_name.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -50,6 +78,15 @@
                                     {{ form.last_name.label }}</label>
                                 {{ form.last_name }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo last_name -->
+                                {% if form.last_name.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -61,6 +98,15 @@
                                     {{ form.middle_name.label }}</label>
                                 {{ form.middle_name }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo middle_name -->
+                                {% if form.middle_name.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.middle_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -69,6 +115,15 @@
                                     {{ form.maternal_surname.label }}</label>
                                 {{ form.maternal_surname }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo maternal_surname -->
+                                {% if form.maternal_surname.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.maternal_surname.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -80,6 +135,15 @@
                                     {{ form.username.label }}</label>
                                 <input class="input100" type="text" name="username" placeholder="Nombre de usuario">
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo username -->
+                                {% if form.username.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -88,10 +152,19 @@
                                     {{ form.email.label }}</label>
                                 <input class="input100" type="email" name="email" placeholder="{{ form.email.label }}">
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo email -->
+                                {% if form.email.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
-
+    
                     <div class="row">
                         <div class="column">
                             <div class="wrap-input100 validate-input">
@@ -100,8 +173,17 @@
                                 <input class="input100" type="password" name="password1"
                                     placeholder="{{ form.password1.label }}">
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo password1 -->
+                                {% if form.password1.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
-
+    
                         </div>
                         <div class="column">
                             <div class="wrap-input100 validate-input">
@@ -110,6 +192,15 @@
                                 <input class="input100" type="password" name="password2"
                                     placeholder="Repita la contraseña">
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo password2 -->
+                                {% if form.password2.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -121,6 +212,15 @@
                                     {{ form.identification.label }}</label>
                                 {{ form.identification }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo identification -->
+                                {% if form.identification.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.identification.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -129,6 +229,15 @@
                                     {{ form.address.label }}</label>
                                 {{ form.address }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo address -->
+                                {% if form.address.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.address.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -140,6 +249,15 @@
                                     {{ form.city.label }}</label>
                                 {{ form.city }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo city -->
+                                {% if form.city.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.city.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -148,6 +266,15 @@
                                     {{ form.phone_number.label }}</label>
                                 {{ form.phone_number }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo phone_number -->
+                                {% if form.phone_number.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.phone_number.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -159,6 +286,15 @@
                                     {{ form.birth_date.label }}</label>
                                 {{ form.birth_date }}
                                 <span class="focus-input100"></span>
+                                <!-- Errores asociados al campo birth_date -->
+                                {% if form.birth_date.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                        {% for error in form.birth_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="column">
@@ -168,6 +304,15 @@
                                 <div class="radio-group">
                                     {{ form.genre }}
                                     <span class="focus-input100"></span>
+                                    <!-- Errores asociados al campo genre -->
+                                    {% if form.genre.errors %}
+                                        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                            {% for error in form.genre.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -187,6 +332,9 @@
     </div>
 
     <div id="dropDownSelect1"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

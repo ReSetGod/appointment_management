@@ -73,6 +73,11 @@ urlpatterns = [
     path('doctor/appointments/', views.doctor_appointments_calendar,
          name='doctor_appointments_calendar'),
 
+    path('doctor/mark_as_no_show/<int:appointment_id>/',
+         views.mark_as_no_show, name='mark_as_no_show'),
+    path('doctor/cancel_appointment/<int:appointment_id>/',
+         views.cancel_appointment_doctor, name='cancel_appointment_doctor'),
+
 
     # Eliminar usuarios
     path('users/delete/', views.delete_user, name='delete_user'),
@@ -120,4 +125,8 @@ urlpatterns = [
          views.create_prescription, name='create_prescription'),
     path('download-prescription/<int:prescription_id>/',
          views.download_prescription, name='download_prescription'),
+
+    # Calififcar atención
+    path('appointment/<int:appointment_id>/rate/',
+         views.rate_appointment, name='rate_appointment'),
 ]

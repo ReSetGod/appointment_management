@@ -1,8 +1,9 @@
-from allauth.account.forms import SignupForm, AddEmailForm
+from allauth.account.forms import SignupForm
 from allauth.account.models import EmailAddress
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
-from .models import Appointment, Doctor, MedicalHistory, Prescription, Speciality, User
+from .models import Doctor, MedicalHistory, Prescription, Rating, Speciality, User
 
 
 class CustomSignupForm(SignupForm):
@@ -369,4 +370,94 @@ class PrescriptionForm(forms.ModelForm):
         labels = {
             'medication_details': 'Detalles del Medicamento',
             'instructions': 'Indicaciones',
+        }
+
+
+class RatingForm(forms.ModelForm):
+    score = forms.ChoiceField(
+        choices=[(i, str(i)) for i in range(1, 6)],
+        widget=forms.RadioSelect(attrs={
+            'class': 'rating-radio',
+        }),
+        label='Calificación:'
+    )
+
+    class Meta:
+        model = Rating
+        fields = ['score', 'comment']
+        widgets = {
+            'comment': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 3,
+                    'placeholder': 'Comparte tu experiencia con el servicio recibido...'
+                }
+            ),
+        }
+        labels = {
+            'comment': 'Comentario (opcional):'
+        }
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            'username', 'email', 'password1', 'password2',
+            'first_name', 'middle_name', 'last_name', 'maternal_surname',
+            'identification', 'birth_date', 'genre', 'address', 'city', 'phone_number'
+        )
+        labels = {
+            'first_name': 'Primer Nombre',
+            'middle_name': 'Segundo Nombre',
+            'last_name': 'Primer Apellido',
+            'maternal_surname': 'Segundo Apellido',
+            'identification': 'Identificación',
+            'birth_date': 'Fecha de Nacimiento',
+            'genre': 'Género',
+            'address': 'Dirección',
+            'city': 'Ciudad',
+            'phone_number': 'Teléfono',
+        }
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'middle_name', 'last_name', 'maternal_surname',
+            'identification', 'birth_date', 'genre', 'address', 'city', 'phone_number'
+        )
+        labels = {
+            'first_name': 'Primer Nombre',
+            'middle_name': 'Segundo Nombre',
+            'last_name': 'Primer Apellido',
+            'maternal_surname': 'Segundo Apellido',
+            'identification': 'Identificación',
+            'birth_date': 'Fecha de Nacimiento',
+            'genre': 'Género',
+            'address': 'Dirección',
+            'city': 'Ciudad',
+            'phone_number': 'Teléfono',
+        }
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'middle_name', 'last_name', 'maternal_surname',
+            'identification', 'birth_date', 'genre', 'address', 'city', 'phone_number'
+        )
+        labels = {
+            'first_name': 'Primer Nombre',
+            'middle_name': 'Segundo Nombre',
+            'last_name': 'Primer Apellido',
+            'maternal_surname': 'Segundo Apellido',
+            'identification': 'Identificación',
+            'birth_date': 'Fecha de Nacimiento',
+            'genre': 'Género',
+            'address': 'Dirección',
+            'city': 'Ciudad',
+            'phone_number': 'Teléfono',
         }

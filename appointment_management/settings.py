@@ -83,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
                 'core.context_processors.group_context',
+                'core.context_processors.notifications_processor',
             ],
         },
     },

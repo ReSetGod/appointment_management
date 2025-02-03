@@ -22,8 +22,6 @@
 }
 
 
-
-
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
@@ -49,6 +47,7 @@ a {
 	-webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
+  text-decoration: none;
 }
 
 a:focus {
@@ -61,36 +60,12 @@ a:hover {
 }
 
 /*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
-}
-
-p {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-}
-
-ul, li {
-	margin: 0px;
-	list-style-type: none;
-}
-
-
-/*---------------------------------------------*/
 input {
 	outline: none;
 	border: none;
 }
 
-textarea {
-  outline: none;
-  border: none;
-}
-
-textarea:focus, input:focus {
+input:focus {
   border-color: transparent !important;
 }
 
@@ -99,20 +74,10 @@ input:focus:-moz-placeholder { color:transparent; }
 input:focus::-moz-placeholder { color:transparent; }
 input:focus:-ms-input-placeholder { color:transparent; }
 
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
-
 input::-webkit-input-placeholder { color: #adadad;}
 input:-moz-placeholder { color: #adadad;}
 input::-moz-placeholder { color: #adadad;}
 input:-ms-input-placeholder { color: #adadad;}
-
-textarea::-webkit-input-placeholder { color: #adadad;}
-textarea:-moz-placeholder { color: #adadad;}
-textarea::-moz-placeholder { color: #adadad;}
-textarea:-ms-input-placeholder { color: #adadad;}
 
 /*---------------------------------------------*/
 button {
@@ -123,10 +88,6 @@ button {
 
 button:hover {
 	cursor: pointer;
-}
-
-iframe {
-	border: none !important;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -206,15 +167,6 @@ iframe {
   color: #333333;
   line-height: 1.2;
   text-align: center;
-}
-
-.reset-password {
-  display: block;
-  font-family: Poppins-Medium;
-  font-size: 16px;
-  color: #333333;
-  line-height: 1.2;
-  text-align: justify;
 }
 
 
@@ -302,15 +254,7 @@ iframe {
   width: 100%;
 }
 
-.has-val.input100 + .focus-input100::before {
-  width: 100%;
-}
-
 .input100:focus + .focus-input100::after {
-  color: #0077B6;
-}
-
-.has-val.input100 + .focus-input100::after {
   color: #0077B6;
 }
 
@@ -393,66 +337,6 @@ iframe {
   position: relative;
 }
 
-.alert-validate::before {
-  content: attr(data-validate);
-  position: absolute;
-  max-width: 70%;
-  background-color: #fff;
-  border: 1px solid #c80000;
-  border-radius: 2px;
-  padding: 4px 25px 4px 10px;
-  bottom: calc((100% - 20px) / 2);
-  -webkit-transform: translateY(50%);
-  -moz-transform: translateY(50%);
-  -ms-transform: translateY(50%);
-  -o-transform: translateY(50%);
-  transform: translateY(50%);
-  right: 2px;
-  pointer-events: none;
-
-  font-family: Poppins-Regular;
-  color: #c80000;
-  font-size: 13px;
-  line-height: 1.4;
-  text-align: left;
-
-  visibility: hidden;
-  opacity: 0;
-
-  -webkit-transition: opacity 0.4s;
-  -o-transition: opacity 0.4s;
-  -moz-transition: opacity 0.4s;
-  transition: opacity 0.4s;
-}
-
-.alert-validate::after {
-  content: "\f06a";
-  font-family: FontAwesome;
-  display: block;
-  position: absolute;
-  color: #c80000;
-  font-size: 16px;
-  bottom: calc((100% - 20px) / 2);
-  -webkit-transform: translateY(50%);
-  -moz-transform: translateY(50%);
-  -ms-transform: translateY(50%);
-  -o-transform: translateY(50%);
-  transform: translateY(50%);
-  right: 8px;
-}
-
-.alert-validate:hover:before {
-  visibility: visible;
-  opacity: 1;
-}
-
-@media (max-width: 992px) {
-  .alert-validate::before {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Social item ]*/
@@ -498,8 +382,9 @@ iframe {
   background-color: #0077B6; 
   color: white; 
   border: none; 
-}
-
-.custom-button:hover {
-  background-color: #005f8a; 
-}
+  }
+  
+  .custom-button:hover { 
+    background-color: #024c70 !important; 
+    color: white !important;
+    }
