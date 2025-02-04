@@ -224,3 +224,123 @@ class Notification(models.Model):
 
     def __str__(self):
         return f'Notification for {self.patient.username} - {self.created_at}'
+
+
+class Triage(models.Model):
+    CONSCIOUSNESS_CHOICES = [
+        ('ALERT', 'Alerta'),
+        ('VERBAL', 'Responde a estímulo verbal'),
+        ('PAIN', 'Responde a estímulo doloroso'),
+        ('UNRESPONSIVE', 'No responde')
+    ]
+
+    CATEGORY_CHOICES = [
+        ('NORMAL', 'Normal'),
+        ('MODERATE', 'Alerta Moderada'),
+        ('SEVERE', 'Alerta Severa'),
+        ('CRITICAL', 'Crítico')
+    ]
+
+    patient = models.ForeignKey(
+        'User', on_delete=models.CASCADE, related_name='triages')
+    created_at = models.DateTimeField(auto_now_add=True)
+    heart_rate = models.IntegerField('Frecuencia Cardíaca')
+    respiratory_rate = models.IntegerField('Frecuencia Respiratoria')
+    systolic_blood_pressure = models.IntegerField('Presión Arterial Sistólica')
+    oxygen_saturation = models.IntegerField('SpO2')
+    consciousness_level = models.CharField(
+        'Nivel de Conciencia', max_length=20, choices=CONSCIOUSNESS_CHOICES)
+
+    # Puntajes
+    heart_rate_score = models.IntegerField(default=0)
+    respiratory_rate_score = models.IntegerField(default=0)
+    blood_pressure_score = models.IntegerField(default=0)
+    oxygen_saturation_score = models.IntegerField(default=0)
+    consciousness_score = models.IntegerField(default=0)
+    total_score = models.IntegerField(default=0)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+
+    def calculate_scores(self):
+        # Frecuencia Cardíaca (FC)
+        if self.heart_rate >= 140 or self.heart_rate < 40:
+            self.heart_rate_score = 5  # Crítico
+        elif (121 <= self.heart_rate < 140) or (40 <= self.heart_rate <= 49):
+            self.heart_rate_score = 3  # Alerta Severa
+        elif (100 <= self.heart_rate <= 120) or (50 <= self.heart_rate <= 59):
+            self.heart_rate_score = 1  # Alerta Moderada
+        elif 60 <= self.heart_rate <= 100:
+            self.heart_rate_score = 0  # Normal
+
+    # Rango de respiración (FR)
+        if self.respiratory_rate > 30 or self.respiratory_rate <= 6:
+            self.respiratory_rate_score = 5  # Crítico
+        elif (25 <= self.respiratory_rate <= 30) or (6 < self.respiratory_rate <= 8):
+            self.respiratory_rate_score = 3  # Alerta Severa
+        elif (21 <= self.respiratory_rate <= 24) or (9 <= self.respiratory_rate <= 11):
+            self.respiratory_rate_score = 1  # Alerta Moderada
+        elif 12 <= self.respiratory_rate <= 20:
+            self.respiratory_rate_score = 0  # Normal
+
+    # Presión arterial (PA)
+        if self.systolic_blood_pressure > 180 or self.systolic_blood_pressure < 70:
+            self.blood_pressure_score = 5  # Crítico
+        elif (161 <= self.systolic_blood_pressure <= 180) or (70 <= self.systolic_blood_pressure <= 79):
+            self.blood_pressure_score = 3  # Alerta Severa
+        elif (140 < self.systolic_blood_pressure <= 160) or (80 <= self.systolic_blood_pressure <= 89):
+            self.blood_pressure_score = 1  # Alerta Moderada
+        elif 90 <= self.systolic_blood_pressure <= 140:
+            self.blood_pressure_score = 0  # Normal
+
+    # Saturación de oxígeno (SpO2)
+        if self.oxygen_saturation < 85:
+            self.oxygen_saturation_score = 5  # Crítico
+        elif 85 <= self.oxygen_saturation <= 89:
+            self.oxygen_saturation_score = 3  # Alerta Severa
+        elif 90 <= self.oxygen_saturation <= 94:
+            self.oxygen_saturation_score = 1  # Alerta Moderada
+        elif self.oxygen_saturation >= 95:
+            self.oxygen_saturation_score = 0  # Normal
+
+        # Conciencia score
+        consciousness_scores = {
+            'ALERT': 0,        # Normal
+            'VERBAL': 1,       # Alerta Moderada
+            'PAIN': 3,         # Alerta Severa
+            'UNRESPONSIVE': 5  # Crítico
+        }
+        self.consciousness_score = consciousness_scores.get(
+            self.consciousness_level, 0)
+
+        # Calcular el total score
+        self.total_score = (
+            self.heart_rate_score +
+            self.respiratory_rate_score +
+            self.blood_pressure_score +
+            self.oxygen_saturation_score +
+            self.consciousness_score
+        )
+
+        # Determinar la categoría por el score
+        max_score = max(
+            self.heart_rate_score,
+            self.respiratory_rate_score,
+            self.blood_pressure_score,
+            self.oxygen_saturation_score,
+            self.consciousness_score
+        )
+
+        if max_score == 5:
+            self.category = 'CRITICAL'
+        elif max_score == 3:
+            self.category = 'SEVERE'
+        elif max_score == 1:
+            self.category = 'MODERATE'
+        else:
+            self.category = 'NORMAL'
+
+    def save(self, *args, **kwargs):
+        self.calculate_scores()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-created_at']

@@ -3,7 +3,7 @@ from allauth.account.models import EmailAddress
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
-from .models import Doctor, MedicalHistory, Prescription, Rating, Speciality, User
+from .models import Doctor, MedicalHistory, Prescription, Rating, Speciality, Triage, User
 
 
 class CustomSignupForm(SignupForm):
@@ -461,3 +461,49 @@ class CustomUserChangeForm(UserChangeForm):
             'city': 'Ciudad',
             'phone_number': 'Teléfono',
         }
+
+
+class TriageForm(forms.ModelForm):
+    class Meta:
+        model = Triage
+        fields = ['patient', 'heart_rate', 'respiratory_rate',
+                  'systolic_blood_pressure', 'oxygen_saturation',
+                  'consciousness_level']
+        widgets = {
+            'patient': forms.Select(attrs={
+                'id': 'patientSearch',
+                'placeholder': 'Seleccione un paciente...',
+                'class': 'form-select'
+            }),
+            'heart_rate': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '30',
+                'max': '200',
+                'step': '1'
+            }),
+            'respiratory_rate': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '5',
+                'max': '50',
+                'step': '1'
+            }),
+            'systolic_blood_pressure': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '60',
+                'max': '220',
+                'step': '1'
+            }),
+            'oxygen_saturation': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '60',
+                'max': '100',
+                'step': '1'
+            }),
+            'consciousness_level': forms.Select(attrs={'class': 'form-select'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patient'].queryset = User.objects.filter(
+            groups__name='Paciente')
+        self.fields['patient'].label_from_instance = lambda obj: f"{obj.get_full_name()} - {obj.identification}"

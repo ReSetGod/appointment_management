@@ -807,3 +807,8 @@ h3 {
     background-color: #0077B6;
     color: white;
 }
+
+.bg-orange {
+    background-color: #fd7e14 !important;
+    color: white;
+}

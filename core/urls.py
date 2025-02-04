@@ -129,4 +129,15 @@ urlpatterns = [
     # Calififcar atención
     path('appointment/<int:appointment_id>/rate/',
          views.rate_appointment, name='rate_appointment'),
+
+
+    # Urls de tiajes
+    path('manage_triages/', views.manage_triages, name='manage_triages'),
+    path('create_triage/', views.create_or_edit_triage, name='create-triage'),
+    path('edit_triage/<int:triage_id>/',
+         views.create_or_edit_triage, name='edit-triage'),
+    path('load_triages/', views.load_triages, name='load_triages'),
+    path('triage_details/<int:triage_id>/',
+         views.triage_details, name='triage_details'),
+
 ]

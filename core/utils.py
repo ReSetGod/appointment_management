@@ -98,3 +98,25 @@ def generate_pdf(template_src, context):
             raise
     except Exception as e:
         raise Exception(f"Error generating PDF: {str(e)}")
+
+
+def get_category_from_score(score):
+    if score == 0:
+        return ('Normal', 'success')
+    elif score == 1:
+        return ('Alerta Moderada', 'warning')
+    elif score == 3:
+        return ('Alerta Severa', 'orange')
+    else:
+        return ('Crítico', 'danger')
+
+
+def get_total_category(total_score):
+    if 0 <= total_score <= 4:
+        return ('No urgente', 'success')
+    elif 5 <= total_score <= 9:
+        return ('Urgente', 'warning')
+    elif 10 <= total_score <= 14:
+        return ('Muy urgente', 'orange')
+    else:
+        return ('Emergencia', 'danger')

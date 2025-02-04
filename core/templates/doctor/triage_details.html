@@ -1,0 +1,41 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Detalles del Triaje</h2>
+    <p><strong>Paciente:</strong> {{ triage.patient.get_full_name }} ({{ triage.patient.identification }})</p>
+    <p><strong>Fecha:</strong> {{ triage.created_at|date:"d/m/Y H:i" }}</p>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Parámetro</th>
+                    <th>Valor</th>
+                    <th>Categoría</th>
+                    <th>Puntaje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vital in vitals_data %}
+                <tr>
+                    <td>{{ vital.parameter }}</td>
+                    <td>{{ vital.value }}</td>
+                    <td><span class="badge bg-{{ vital.category.1 }}">{{ vital.category.0 }}</span></td>
+                    <td>{{ vital.score }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="table-secondary">
+                    <td colspan="2"><strong>TOTAL</strong></td>
+                    <td><span class="badge bg-{{ total_category.1 }}">{{ total_category.0 }}</span></td>
+                    <td><strong>{{ triage.total_score }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'manage_triages' %}" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+{% endblock %}

@@ -13,3 +13,5 @@ from .shared_views import home, configuration, get_available_times, search_patie
 from .diagnoses_views import diagnostics_history, diagnostic_details, medical_history, load_medical_histories, create_or_edit_medical_history, delete_medical_history, manage_diagnosis
 
 from .prescription_views import create_prescription, download_prescription
+
+from .triage_views import manage_triages, create_or_edit_triage, load_triages, triage_details

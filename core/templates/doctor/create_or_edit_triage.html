@@ -1,0 +1,113 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>
+        {% if is_editing %}
+        Editar Triaje
+        {% else %}
+        Nuevo Triaje
+        {% endif %}
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Patient Selection - Full Width -->
+        <div class="row mb-3">
+            <div class="col-12">
+                {{ form.patient.label_tag }}
+                {{ form.patient }}
+                {% if form.patient.errors %}
+                <div class="text-danger">
+                    {% for error in form.patient.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Vital Signs - Two Columns -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.heart_rate.label_tag }}
+                {{ form.heart_rate }}
+                {% if form.heart_rate.errors %}
+                <div class="text-danger">
+                    {% for error in form.heart_rate.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                {{ form.respiratory_rate.label_tag }}
+                {{ form.respiratory_rate }}
+                {% if form.respiratory_rate.errors %}
+                <div class="text-danger">
+                    {% for error in form.respiratory_rate.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form.systolic_blood_pressure.label_tag }}
+                {{ form.systolic_blood_pressure }}
+                {% if form.systolic_blood_pressure.errors %}
+                <div class="text-danger">
+                    {% for error in form.systolic_blood_pressure.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                {{ form.oxygen_saturation.label_tag }}
+                {{ form.oxygen_saturation }}
+                {% if form.oxygen_saturation.errors %}
+                <div class="text-danger">
+                    {% for error in form.oxygen_saturation.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Consciousness Level - Full Width -->
+        <div class="row mb-3">
+            <div class="col-12">
+                {{ form.consciousness_level.label_tag }}
+                {{ form.consciousness_level }}
+                {% if form.consciousness_level.errors %}
+                <div class="text-danger">
+                    {% for error in form.consciousness_level.errors %}
+                    <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    {% if is_editing %}
+                    Guardar Cambios
+                    {% else %}
+                    Crear
+                    {% endif %}
+                </button>
+                <a href="{% url 'manage_triages' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

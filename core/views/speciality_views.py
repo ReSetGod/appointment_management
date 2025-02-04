@@ -81,7 +81,7 @@ def load_specialities(request):
             user = request.user
 
             # Validar acceso según el tipo de usuario
-            if not (is_admin(user) or is_receptionist(user)):
+            if not (is_admin(user)):
                 return JsonResponse({"message": "No autorizado"}, status=403)
 
             # Obtener las especialidades desde la base de datos

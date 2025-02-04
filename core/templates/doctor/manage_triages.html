@@ -1,0 +1,24 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <h2>Gestión de Triajes</h2>
+    <br>
+    <div class="table-responsive">
+        <div class="mb-3">
+            <button id="btn-edit" class="btn btn-primary btn-sm me-2" disabled>
+                <i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button id="btn-details" class="btn custom-button btn-sm" disabled>
+                <i class="fa-solid fa-eye"></i> Ver Detalles</button>
+            <a href="{% url 'create-triage' %}" class="btn btn-success btn-sm">
+                <i class="fa-solid fa-circle-plus"></i> Crear Triaje</a>
+        </div>
+        <div id="triageTable"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/triage_table.js' %}"></script>
+{% endblock %}
