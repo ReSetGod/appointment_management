@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from core.forms import SpecialityForm
 from core.models import Doctor, Speciality
-from core.utils import is_admin, is_receptionist
+from core.utils import is_admin
 
 
 @login_required

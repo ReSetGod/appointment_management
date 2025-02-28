@@ -320,20 +320,12 @@ class Triage(models.Model):
             self.consciousness_score
         )
 
-        # Determinar la categoría por el score
-        max_score = max(
-            self.heart_rate_score,
-            self.respiratory_rate_score,
-            self.blood_pressure_score,
-            self.oxygen_saturation_score,
-            self.consciousness_score
-        )
-
-        if max_score == 5:
+        # Clasificación basada en total_score
+        if self.total_score >= 15:
             self.category = 'CRITICAL'
-        elif max_score == 3:
+        elif self.total_score >= 10:
             self.category = 'SEVERE'
-        elif max_score == 1:
+        elif self.total_score >= 5:
             self.category = 'MODERATE'
         else:
             self.category = 'NORMAL'

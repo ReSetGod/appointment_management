@@ -6,7 +6,7 @@
     <h2 class="my-3">Agendar cita médica</h2>
     <form method="POST" action="{% url 'book_appointment' %}">
         {% csrf_token %}
-        {% if is_administrador or is_secretaria %}
+        {% if is_secretaria %}
         <div class="col-md-6 mb-3">
             <label for="patientSearch" class="form-label">Buscar Paciente</label>
             <select id="patientSearch" name="patient_id">
@@ -58,6 +58,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script src="{% static 'js/schedule_appointment.js' %}"></script>
-<script src="{% static 'js/search_patients.js' %}"></script>
+<script src="{% static 'js/appointments/schedule_appointment.js' %}"></script>
+<script src="{% static 'js/patients/search_patients.js' %}"></script>
 {% endblock %}

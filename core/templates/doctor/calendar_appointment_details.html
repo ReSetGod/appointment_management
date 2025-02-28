@@ -1,3 +1,4 @@
+{% load static %}
 <p><strong>Paciente:</strong> {{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</p>
 <p><strong>Identificación:</strong> {{ appointment.patient.identification }}</p>
 <p><strong>Especialidad:</strong> {{ appointment.speciality.name }}</p>
@@ -12,12 +13,12 @@
     <button class="btn btn-success" id="markAsAttendedBtn" data-appointment-id="{{ appointment.id }}">
         <i class="fa-solid fa-check"></i> Marcar como Atendida
     </button>
-    
+
     <!-- Botón Marcar como No Asistió -->
     <button class="btn btn-warning" id="markAsNoShowBtn" data-appointment-id="{{ appointment.id }}">
         <i class="fa-solid fa-user-xmark"></i> No Asistió
     </button>
-    
+
     <!-- Botón Cancelar Cita -->
     <button class="btn btn-danger" id="cancelAppointmentBtn" data-appointment-id="{{ appointment.id }}">
         <i class="fa-solid fa-ban"></i> Cancelar Cita
@@ -25,29 +26,6 @@
 </div>
 
 <script>
-    // Añadir token CSRF a todas las peticiones HTMX
-    document.addEventListener('htmx:configRequest', (event) => {
-        const csrfToken = "{{ csrf_token }}";
-        event.detail.headers['X-CSRFToken'] = csrfToken;
-    });
-
-    // Función para manejar la respuesta después de la cancelación con SweetAlert
-    function handleCancellationResponse(event) {
-        const response = event.detail.xhr.responseText;
-        const data = JSON.parse(response);
-
-        if (data.message) {
-            // Mostrar el mensaje de confirmación con SweetAlert
-            Swal.fire({
-                title: '¡Éxito!',
-                text: data.message,
-                icon: 'success',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#0077B6'
-            }).then(() => {
-                // Recargar la página para actualizar la tabla de citas
-                window.location.reload();
-            });
-        }
-    }
+    window.csrfToken = "{{ csrf_token }}";
 </script>
+<script src="{% static 'js/utils/csrf_token.js' %}"></script>
